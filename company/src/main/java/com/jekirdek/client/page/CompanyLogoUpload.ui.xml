@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:j="urn:import:com.jekirdek.client.component" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
+	<ui:style>
+	
+	</ui:style>
+	<g:HTMLPanel styleName="pageOneColumn">
+		<b:Form type="HORIZONTAL">
+
+			<b:FormGroup>
+				<b:FormLabel text="Logo Seçiniz" for="fileInput" addStyleNames="col-md-2" />
+				<g:FlowPanel addStyleNames="col-md-10">
+					<j:FileInput ui:field="fileInput" />
+				</g:FlowPanel>
+			</b:FormGroup>
+
+			<j:Image ui:field="logoImg" addStyleName="maxH175 mT10" />
+
+		</b:Form>
+	</g:HTMLPanel>
+</ui:UiBinder> 

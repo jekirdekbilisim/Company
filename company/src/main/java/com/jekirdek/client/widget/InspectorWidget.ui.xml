@@ -1,0 +1,57 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:j="urn:import:com.jekirdek.client.component" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
+	<ui:style>
+	
+	</ui:style>
+	<g:HTMLPanel>
+		<b:Panel>
+			<b:PanelBody>
+				<b:Form type="HORIZONTAL">
+
+					<b:FormGroup>
+						<b:FormLabel text="Ad" for="name" addStyleNames="col-md-3" />
+						<g:FlowPanel addStyleNames="col-md-9">
+							<b:FormControlStatic ui:field="name" b:id="name" />
+						</g:FlowPanel>
+					</b:FormGroup>
+
+					<b:FormGroup>
+						<b:FormLabel text="Soyad" for="surname" addStyleNames="col-md-3" />
+						<g:FlowPanel addStyleNames="col-md-9">
+							<b:FormControlStatic ui:field="surname" b:id="surname" />
+						</g:FlowPanel>
+					</b:FormGroup>
+
+					<b:FormGroup>
+						<b:FormLabel text="Ünvanı" for="title" addStyleNames="col-md-3" />
+						<g:FlowPanel addStyleNames="col-md-9">
+							<b:FormControlStatic ui:field="title" b:id="title" />
+						</g:FlowPanel>
+					</b:FormGroup>
+
+					<b:FormGroup>
+						<b:FormLabel text="Tescil Edilen Şube" for="registeredBranch" addStyleNames="col-md-3" />
+						<g:FlowPanel addStyleNames="col-md-9">
+							<b:FormControlStatic ui:field="registeredBranch" b:id="registeredBranch" />
+						</g:FlowPanel>
+					</b:FormGroup>
+
+					<b:FormGroup>
+						<b:FormLabel text="Adres" for="registeredBranch" addStyleNames="col-md-3" />
+						<g:FlowPanel addStyleNames="col-md-9">
+							<b:FormControlStatic ui:field="address" b:id="address" />
+						</g:FlowPanel>
+					</b:FormGroup>
+
+					<b:FormGroup>
+						<g:FlowPanel addStyleNames="col-md-offset-3 col-md-4">
+							<b:Button ui:field="updateBtn" type="PRIMARY" icon="PENCIL" visible="false" text="Güncelle" />
+							<b:Button ui:field="deleteBtn" type="DANGER" icon="TRASH_O" visible="false" text="Sil" />
+						</g:FlowPanel>
+					</b:FormGroup>
+				</b:Form>
+			</b:PanelBody>
+		</b:Panel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

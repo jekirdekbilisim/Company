@@ -1,0 +1,101 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:j="urn:import:com.jekirdek.client.component">
+	<ui:style>
+		/* Add CSS here. See the GWT docs on UI Binder for more details */
+
+	</ui:style>
+	<g:HTMLPanel> 
+		<g:TabPanel ui:field="mainTab" width="60%">
+			<g:Tab text="Kullanıcı Bilgileri" >
+				<j:Table>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="TC Kimlik No" />
+						</j:Cell>
+						<j:Cell>
+							<j:TextField ui:field="userTCKN" />
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="Adı" />
+						</j:Cell>
+						<j:Cell>
+							<j:TextField ui:field="userFirstName" />
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="Soyadı" />
+						</j:Cell>
+						<j:Cell>
+							<j:TextField ui:field="userLastName" />
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="E-Mail" />
+						</j:Cell>
+						<j:Cell>
+							<j:TextField ui:field="userEmail" />
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="Cep Tel." />
+						</j:Cell>
+						<j:Cell>
+							<j:TextField ui:field="userCellPhone" />
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="Sabit Tel." />
+						</j:Cell>
+						<j:Cell>
+							<j:TextField ui:field="userPhone" />
+						</j:Cell>
+						<j:Cell>
+							<j:TextField ui:field="userPhoneInternal" width="50px"/>
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="Ülke" />
+						</j:Cell>
+						<j:Cell>
+							<j:ComboBox ui:field="userCountryCmb" isMultipleSelect="false"/>
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="Şehir" />
+						</j:Cell>
+						<j:Cell>
+							<j:ComboBox ui:field="userCityCmb" isMultipleSelect="false"/>
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="İlçe" />
+						</j:Cell>
+						<j:Cell>
+							<j:ComboBox ui:field="userDistrictCmb" isMultipleSelect="false"/>
+						</j:Cell>
+					</j:Row>
+					<j:Row>
+						<j:Cell>
+							<j:Label text="Adres" />
+						</j:Cell>
+						<j:Cell>
+							<j:TextArea ui:field="userAddress" />
+						</j:Cell>
+					</j:Row>
+				</j:Table>
+			</g:Tab>
+		</g:TabPanel>
+		<j:Button text="Kaydet" ui:field="saveBtn" addStyleName="mT10"/>
+		<j:Button text="Vazgeç" ui:field="cancelBtn" addStyleName="mT10"/>
+	</g:HTMLPanel>
+</ui:UiBinder> 

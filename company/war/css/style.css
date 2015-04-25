@@ -1,0 +1,58 @@
+/*ibesli*/
+/*company custom css */
+@media screen and (min-width: 992px) {
+	.pageOneColumn {
+		width: 742px;
+	}
+}
+
+.tab-content {
+	margin-top: 10px;
+}
+
+.modal-backdrop {
+	z-index: -1;
+}
+
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
+
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 999px;
+	text-align: right;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	outline: none;
+	background: white;
+	cursor: inherit;
+	display: block;
+}
+
+.btn-file>i+span {
+	padding-left: 2px;
+}
+
+.btn-file>span+i {
+	padding-left: 2px;
+}
+
+div#_popupLoginLogoutAnc {
+	text-align: center;
+}
+
+.bootbox-body {
+  font-weight: bolder;
+  font-size: medium;
+}
+
+.btn{
+	margin-left: 2px;
+	margin-right: 2px;
+}

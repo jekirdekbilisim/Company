@@ -1,0 +1,9 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:j="urn:import:com.jekirdek.client.component">
+	<ui:style>
+	</ui:style>
+	<g:HTMLPanel>
+<!-- 	    <j:Label text="Şirket Adı"/> -->
+<!-- 	    <j:SuggestBox ui:field="companySuggestBox"/> -->
+	</g:HTMLPanel>
+</ui:UiBinder> 

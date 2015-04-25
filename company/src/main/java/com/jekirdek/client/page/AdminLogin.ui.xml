@@ -1,0 +1,29 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:j="urn:import:com.jekirdek.client.component">
+	<ui:style>
+		.important {
+		font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<j:Table>
+			<j:Row>
+				<j:Cell>
+					<j:Label text="Kullanıcı Adı" />
+				</j:Cell>
+				<j:Cell>
+					<j:TextField ui:field="userNameTxt" />
+				</j:Cell>
+			</j:Row>
+			<j:Row>
+				<j:Cell>
+					<j:Label text="Şifre" />
+				</j:Cell>
+				<j:Cell>
+					<j:PasswordTextField ui:field="password" />
+				</j:Cell>
+			</j:Row>
+		</j:Table>
+		<j:Button addStyleName="{style.important}" ui:field="loginBtn" text="Login" />
+	</g:HTMLPanel>
+</ui:UiBinder> 

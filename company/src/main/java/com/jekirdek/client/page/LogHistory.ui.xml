@@ -1,0 +1,40 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:j="urn:import:com.jekirdek.client.component" xmlns:b="urn:import:org.gwtbootstrap3.client.ui" xmlns:b.gwt="urn:import:org.gwtbootstrap3.client.ui.gwt" xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html"
+	xmlns:date="urn:import:org.gwtbootstrap3.extras.datetimepicker.client.ui">
+	<ui:style>
+	
+	</ui:style>
+	<g:HTMLPanel>
+		<b:Form type="HORIZONTAL" styleName="pageOneColumn">
+
+			<b:FormGroup>
+				<b:FormLabel text="Tarih Aralığı" for="startDate" addStyleNames="col-md-4" />
+				<g:FlowPanel addStyleNames="col-md-3">
+					<date:DateTimePicker ui:field="startDate" placeholder="Tarih Seçiniz" highlightToday="true"
+						format="mm/dd/yyyy" minView="MONTH" autoClose="true" language="TR"/>
+				</g:FlowPanel>
+				<g:FlowPanel addStyleNames="col-md-3">
+					<date:DateTimePicker ui:field="finishDate" placeholder="Tarih Seçiniz" highlightToday="true"
+						format="mm/dd/yyyy" minView="MONTH" autoClose="true" language="TR"/>
+				</g:FlowPanel>
+				<g:FlowPanel addStyleNames="col-md-2">
+					<b:Button ui:field="searchBtn" text="Ara" icon="SEARCH" type="DANGER" />
+				</g:FlowPanel>
+			</b:FormGroup>
+
+		</b:Form>
+		<b:Form>
+			<b:Panel>
+				<b:PanelHeader>
+					<b:Heading size="H3" text="İşlem Geçmişi Tablosu" />
+				</b:PanelHeader>
+				<b:PanelBody>
+					<b.gwt:CellTable bordered="true" condensed="true" striped="true" hover="true" width="100%"
+						ui:field="logGrid" />
+					<b:Pagination ui:field="logGridPagination" paginationSize="SMALL"/>
+				</b:PanelBody>
+			</b:Panel>
+		</b:Form>
+	</g:HTMLPanel>
+</ui:UiBinder> 
