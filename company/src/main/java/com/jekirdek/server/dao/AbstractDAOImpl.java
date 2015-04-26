@@ -2,19 +2,20 @@ package com.jekirdek.server.dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.jekirdek.server.entity.AbstractEntity;
 
 public abstract class AbstractDAOImpl<K, E extends AbstractEntity> {
 
-	Logger				logger	= Logger.getLogger(getClass().getName());
+	Logger				logger	= LoggerFactory.getLogger(getClass().getName());
 
 	protected Class<E>	entityClass;
 

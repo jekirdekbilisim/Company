@@ -3,7 +3,6 @@ package com.jekirdek.server.dao;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import javax.persistence.Query;
 
@@ -150,10 +149,10 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 
 		List<String> result = (List<String>) query.getResultList();
 		if (result == null || result.size() == 0) {
-			logger.log(Level.WARNING, " Şirket bulunamadı , objid {0}", companyOid);
+			logger.error(" Şirket bulunamadı , objid {0}", companyOid);
 			return null;
 		} else if (result.size() > 1) {
-			logger.log(Level.SEVERE, " 1 den fazla Şirket bulundu, objid {0}", companyOid);
+			logger.error(" 1 den fazla Şirket bulundu, objid {0}", companyOid);
 		}
 		return result.get(0);
 	}
@@ -170,10 +169,10 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 
 		List<Object> result = (List<Object>) query.getResultList();
 		if (result == null || result.size() == 0) {
-			logger.log(Level.WARNING, " Şirket logosu bulunamadı , objid {0}", companyOid);
+			logger.error(" Şirket logosu bulunamadı , objid {0}", companyOid);
 			return null;
 		} else if (result.size() > 1) {
-			logger.log(Level.SEVERE, " 1 den fazla Şirket logosu bulundu, objid {0}", companyOid);
+			logger.error(" 1 den fazla Şirket logosu bulundu, objid {0}", companyOid);
 		}
 		if (result.get(0) instanceof Blob)
 			return ((Blob) result.get(0));
@@ -188,7 +187,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 
 		Company result = findByOid(companyOid);
 		if (result == null) {
-			logger.log(Level.SEVERE, " İlgili şirket bulunamadı, objid:{0}", companyOid);
+			logger.error(" İlgili şirket bulunamadı, objid:{0}", companyOid);
 		}
 		return result.getTradeName();
 	}
@@ -205,10 +204,10 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 
 		List<Manager> result = (List<Manager>) query.getResultList();
 		if (result == null || result.size() == 0) {
-			logger.log(Level.WARNING, " Yönetici bulunamadı, objid {0}", managerOid);
+			logger.error(" Yönetici bulunamadı, objid {0}", managerOid);
 			return null;
 		} else if (result.size() > 1) {
-			logger.log(Level.SEVERE, " 1 den fazla Yönetici bulundu, objid {0}", managerOid);
+			logger.error(" 1 den fazla Yönetici bulundu, objid {0}", managerOid);
 		}
 		if (ManagerType.REAL.equals(result.get(0).getManagerTye()))
 			return result.get(0).getName();
@@ -229,10 +228,10 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 
 		List<Inspector> result = (List<Inspector>) query.getResultList();
 		if (result == null || result.size() == 0) {
-			logger.log(Level.WARNING, " Denetçi bulunamadı, objid {0}", inspectorOid);
+			logger.error(" Denetçi bulunamadı, objid {0}", inspectorOid);
 			return null;
 		} else if (result.size() > 1) {
-			logger.log(Level.SEVERE, " 1 den fazla Denetçi bulundu, objid {0}", inspectorOid);
+			logger.error(" 1 den fazla Denetçi bulundu, objid {0}", inspectorOid);
 		}
 
 		return result.get(0).getName();
