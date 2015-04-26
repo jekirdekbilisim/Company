@@ -19,22 +19,22 @@ import com.jekirdek.client.util.ListItem;
 @RemoteServiceRelativePath("proxyServlet/companyController")
 public interface CompanyController extends RemoteService {
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	public void saveUpdateCompany(CompanyInfoDTO companyDTO) throws Exception;
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	public void logoUpload(CompanyLogoDTO dto);
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
 	public byte[] getLogoByte(String companyOid) throws Exception;
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
 	public Boolean companyHasLogo(String companyOid);
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
 	public CompanyInfoDTO loadCompanyInfo(CompanySearchDTO searchDTO);
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
 	public List<ListItem> searchCompanySuggest(CompanySearchSuggestDTO dto) throws Exception;
 
 	@Authorization(roles = { RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN })

@@ -74,7 +74,8 @@ public class FileServlet extends HttpServlet {
 
 		byte[] imageData = readImageDataFromDB(companyOid);
 		response.setContentType("image/png");
-		response.getOutputStream().write(imageData, 0, imageData.length);
+		if (imageData != null)
+			response.getOutputStream().write(imageData, 0, imageData.length);
 		// response.getOutputStream().flush();
 	}
 

@@ -18,19 +18,19 @@ import com.jekirdek.client.util.ListItem;
 @RemoteServiceRelativePath("proxyServlet/documentController")
 public interface DocumentController extends RemoteService {
 
-	@Authorization(roles = { RoleType.MEMBER })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN })
 	void saveDocument(DocumentDTO dto) throws Exception;
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.NOT_LOGIN })
 	List<CompanyDocumentData> loadCompanyDocumentList(String string);
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.NOT_LOGIN })
 	FileDownloadItem getDocumentDBStoreByOid(String fileDbStoreOid);
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	List<ListItem> loadAllDocumentTypeCmb(String param);
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	List<DocumentTypeDTO> loadAllDocumentType(String string);
 
 }

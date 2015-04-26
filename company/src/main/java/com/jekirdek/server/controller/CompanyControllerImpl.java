@@ -334,6 +334,6 @@ public class CompanyControllerImpl extends AbstractController implements Company
 
 	@Override
 	public List<CompanySelectData> loadAuthCompany(String str) {
-		return companyDAO.findUserAuthorizedCompanyListByRole(SessionUtil.getSessionUser().getObjid(), RoleType.MEMBER);
+		return companyDAO.findUserAuthorizedCompanyListByRole(SessionUtil.getSessionUser().getObjid(), RoleType.MEMBER_LOGIN);
 	}
 }

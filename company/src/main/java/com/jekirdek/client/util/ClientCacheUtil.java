@@ -7,14 +7,14 @@ import com.jekirdek.client.pojo.SessionUser;
 
 public class ClientCacheUtil {
 
-	private SessionUser sessionUser;
-	private List<MenuItem> clientMenuList;
-	private List<String> privilegeItemList;
-	private List<ListItem> companySuggestDataList;
+	private SessionUser				sessionUser;
+	private List<MenuItem>			clientMenuList;
+	private List<String>			privilegeItemList;
+	private List<ListItem>			companySuggestDataList;
 
-	private static ClientCacheUtil instance = null;
+	private static ClientCacheUtil	instance	= null;
 
-	public static final String PRIV_TOKEN = "_SELECT";
+	public static final String		PRIV_TOKEN	= "_SELECT";
 
 	public static ClientCacheUtil instance() {
 		if (instance == null) {

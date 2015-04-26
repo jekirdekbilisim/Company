@@ -15,7 +15,7 @@ import com.jekirdek.client.dto.LogHistoryData;
 @RemoteServiceRelativePath("proxyServlet/logHistoryController")
 public interface LogHistoryController extends RemoteService {
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	List<LogHistoryData> searchLogHistoryByDate(LogHistoryDTO dto) throws Exception;
 
 }

@@ -15,14 +15,14 @@
 					<b:TextBox ui:field="name" b:id="name" />
 				</g:FlowPanel>
 			</b:FormGroup>
-	
-	<b:FormGroup>
+
+			<b:FormGroup>
 				<b:FormLabel text="Soyad" for="name" addStyleNames="col-md-3" />
 				<g:FlowPanel addStyleNames="col-md-9">
 					<b:TextBox ui:field="surname" b:id="surname" />
 				</g:FlowPanel>
 			</b:FormGroup>
-			
+
 			<b:FormGroup>
 				<b:FormLabel text="Ünvanı" for="title" addStyleNames="col-md-3" />
 				<g:FlowPanel addStyleNames="col-md-9">
@@ -36,17 +36,19 @@
 					<b:TextBox ui:field="registeredBranch" b:id="registeredBranch" />
 				</g:FlowPanel>
 			</b:FormGroup>
-			
+
 			<b:FormGroup>
 				<b:FormLabel text="Adres" for="registeredBranch" addStyleNames="col-md-3" />
 				<g:FlowPanel addStyleNames="col-md-9">
 					<b:TextArea ui:field="address" b:id="address" />
 				</g:FlowPanel>
 			</b:FormGroup>
-			
-			<g:FlowPanel addStyleNames="col-md-offset-3 col-md-2">
-				<b:Button ui:field="addInspectorBtn" text="Kaydet" type="PRIMARY" icon="SAVE" />
-			</g:FlowPanel>
+
+			<b:FormGroup>
+				<g:FlowPanel addStyleNames="col-md-offset-3 col-md-2">
+					<b:Button ui:field="addInspectorBtn" text="Kaydet" type="PRIMARY" icon="SAVE" />
+				</g:FlowPanel>
+			</b:FormGroup>
 			
 		</b:Form>
 	</g:HTMLPanel>

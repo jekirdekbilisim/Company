@@ -183,11 +183,11 @@ public class CompanyRegister extends AbstractPage implements IPage {
 		if (companyInfoDTO.getManagerDtoList() != null) {
 			for (ManagerDTO managerDTO : companyInfoDTO.getManagerDtoList()) {
 				if (ManagerType.REAL.equals(managerDTO.getManagerType())) {
-					RealManagerWidget managerWidget = new RealManagerWidget(managerDTO);
+					RealManagerWidget managerWidget = new RealManagerWidget(managerDTO, true);
 					managerWidget.setCompanyRegister(this);
 					managerWidgetDiv.add(managerWidget);
 				} else {
-					CorpManagerWidget managerWidget = new CorpManagerWidget(managerDTO);
+					CorpManagerWidget managerWidget = new CorpManagerWidget(managerDTO, true);
 					managerWidget.setCompanyRegister(this);
 					managerWidgetDiv.add(managerWidget);
 				}
@@ -200,7 +200,7 @@ public class CompanyRegister extends AbstractPage implements IPage {
 		inspectorWidgetDiv.clear();
 		if (companyInfoDTO.getInspectorDtoList() != null) {
 			for (InspectorDTO inspectorDTO : companyInfoDTO.getInspectorDtoList()) {
-				InspectorWidget inspectorWidget = new InspectorWidget(inspectorDTO, Boolean.FALSE);
+				InspectorWidget inspectorWidget = new InspectorWidget(inspectorDTO, true);
 				inspectorWidget.setCompanyRegister(this);
 				inspectorWidgetDiv.add(inspectorWidget);
 			}

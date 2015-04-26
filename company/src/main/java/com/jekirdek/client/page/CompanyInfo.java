@@ -1,7 +1,5 @@
 package com.jekirdek.client.page;
 
-import java.util.List;
-
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.FormControlStatic;
 import org.gwtbootstrap3.client.ui.html.Div;
@@ -64,15 +62,9 @@ public class CompanyInfo extends AbstractPage implements IPage {
 
 	private void authorizationControl() {
 		// control user role, for anonymous user remove update button
-		List<String> privilegeList = ClientCacheUtil.instance().getPrivilegeItemList();
-		String selectedCompanyOid = ClientCacheUtil.instance().getSessionUser().getSelectedCompanyOid();
-		List<String> authCompanyList = ClientCacheUtil.instance().getSessionUser().getAuthorizedCompanyOidList();
-		if (privilegeList != null && privilegeList.contains("CompanyRegister_SELECT") && authCompanyList.contains(selectedCompanyOid)) {
-			updatePageBtn.setVisible(true);
-		} else {
+		if (!PageUtil.controlUserAuthForCompanyUpdate()) {
 			updatePageBtn.removeFromParent();
 		}
-
 	}
 
 	private void loadCompanyInfo() {
@@ -106,7 +98,7 @@ public class CompanyInfo extends AbstractPage implements IPage {
 		// inspector list
 		if (infoDTO.getInspectorDtoList() != null) {
 			for (InspectorDTO inspectorDTO : infoDTO.getInspectorDtoList()) {
-				inspectorWidget.add(new InspectorWidget(inspectorDTO, Boolean.TRUE));
+				inspectorWidget.add(new InspectorWidget(inspectorDTO, false));
 			}
 		}
 
@@ -114,9 +106,9 @@ public class CompanyInfo extends AbstractPage implements IPage {
 		if (infoDTO.getManagerDtoList() != null) {
 			for (ManagerDTO managerDTO : infoDTO.getManagerDtoList()) {
 				if (ManagerType.REAL.equals(managerDTO.getManagerType()))
-					managerWidget.add(new RealManagerWidget(managerDTO));
+					managerWidget.add(new RealManagerWidget(managerDTO, false));
 				else
-					managerWidget.add(new CorpManagerWidget(managerDTO));
+					managerWidget.add(new CorpManagerWidget(managerDTO, false));
 			}
 		}
 	}

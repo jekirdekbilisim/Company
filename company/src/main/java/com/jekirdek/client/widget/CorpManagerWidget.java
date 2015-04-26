@@ -14,7 +14,7 @@ import com.jekirdek.client.constant.TitleType;
 import com.jekirdek.client.dto.ManagerDTO;
 import com.jekirdek.client.page.CompanyRegister;
 import com.jekirdek.client.page.CorpManagerRegister;
-import com.jekirdek.client.util.ClientCacheUtil;
+import com.jekirdek.client.util.PageUtil;
 
 public class CorpManagerWidget extends Composite {
 
@@ -31,10 +31,12 @@ public class CorpManagerWidget extends Composite {
 
 	private ManagerDTO		managerDTO	= new ManagerDTO();
 	private CompanyRegister	companyRegister;
+	private boolean			updateMode	= false;
 
-	public CorpManagerWidget(ManagerDTO dto) {
+	public CorpManagerWidget(ManagerDTO dto, boolean openMode) {
 		initWidget(uiBinder.createAndBindUi(this));
 		managerDTO = dto;
+		updateMode = openMode;
 		initEventHandler();
 		componentValueSet();
 		authorizationControl();
@@ -42,11 +44,7 @@ public class CorpManagerWidget extends Composite {
 
 	private void authorizationControl() {
 		// control user role, for anonymous user remove update button
-		if (ClientCacheUtil.instance().getPrivilegeItemList() != null
-				&& ClientCacheUtil.instance().getPrivilegeItemList().contains("CompanyRegister_SELECT")) {
-			updateBtn.setVisible(true);
-			deleteBtn.setVisible(true);
-		} else {
+		if (!(updateMode && PageUtil.controlUserAuthForCompanyUpdate())) {
 			updateBtn.removeFromParent();
 			deleteBtn.removeFromParent();
 		}

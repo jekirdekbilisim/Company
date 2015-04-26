@@ -13,32 +13,32 @@ import com.google.gwt.user.client.ui.Widget;
 import com.jekirdek.client.dto.InspectorDTO;
 import com.jekirdek.client.page.CompanyRegister;
 import com.jekirdek.client.page.InspectorRegister;
-import com.jekirdek.client.util.ClientCacheUtil;
+import com.jekirdek.client.util.PageUtil;
 
 public class InspectorWidget extends Composite {
 
-	private static InspectorWidgetUiBinder uiBinder = GWT.create(InspectorWidgetUiBinder.class);
+	private static InspectorWidgetUiBinder	uiBinder	= GWT.create(InspectorWidgetUiBinder.class);
 
 	interface InspectorWidgetUiBinder extends UiBinder<Widget, InspectorWidget> {
 	}
 
 	@UiField
-	FormControlStatic name, surname, title, registeredBranch, address;
+	FormControlStatic		name, surname, title, registeredBranch, address;
 
 	@UiField
-	Button updateBtn, deleteBtn;
+	Button					updateBtn, deleteBtn;
 
-	private InspectorDTO inspectorDTO = new InspectorDTO();
-	private CompanyRegister companyRegister;
-	private Boolean readOnly = Boolean.TRUE;
+	private InspectorDTO	inspectorDTO	= new InspectorDTO();
+	private CompanyRegister	companyRegister;
+	private boolean			updateMode;
 
-	public InspectorWidget(InspectorDTO inspectorDTO, Boolean readOnly) {
+	public InspectorWidget(InspectorDTO dto, boolean openMode) {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.inspectorDTO = inspectorDTO;
-		setReadOnly(readOnly);
+		this.inspectorDTO = dto;
+		updateMode = openMode;
 		componentValueSet();
 		authorizationControl();
-		createEventHandler();
+		initEventHandler();
 	}
 
 	private void componentValueSet() {
@@ -51,22 +51,18 @@ public class InspectorWidget extends Composite {
 
 	private void authorizationControl() {
 		// control user role, for anonymous user remove update button
-		if (!readOnly && ClientCacheUtil.instance().getPrivilegeItemList() != null
-				&& ClientCacheUtil.instance().getPrivilegeItemList().contains("CompanyRegister_SELECT")) {
-			updateBtn.setVisible(true);
-			deleteBtn.setVisible(true);
-		} else {
+		if (!(updateMode && PageUtil.controlUserAuthForCompanyUpdate())) {
 			updateBtn.removeFromParent();
 			deleteBtn.removeFromParent();
 		}
 	}
 
-	private void createEventHandler() {
+	private void initEventHandler() {
 		updateBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				openInspectorPopup();
+				updateBtnClicked();
 			}
 		});
 
@@ -80,7 +76,7 @@ public class InspectorWidget extends Composite {
 		});
 	}
 
-	private void openInspectorPopup() {
+	private void updateBtnClicked() {
 		InspectorRegister inspectorRegister = companyRegister.openInspectorCreatePopup();
 		inspectorRegister.openForUpdate(inspectorDTO);
 	}
@@ -92,14 +88,4 @@ public class InspectorWidget extends Composite {
 	public void setCompanyRegister(CompanyRegister companyRegister) {
 		this.companyRegister = companyRegister;
 	}
-
-	public Boolean getReadOnly() {
-		return readOnly;
-	}
-
-	public void setReadOnly(Boolean readOnly) {
-		this.readOnly = readOnly;
-		authorizationControl();
-	}
-
 }

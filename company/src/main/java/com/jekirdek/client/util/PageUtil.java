@@ -1,6 +1,10 @@
 package com.jekirdek.client.util;
 
+import java.util.List;
+
 import com.jekirdek.client.component.Label;
+import com.jekirdek.client.constant.RoleType;
+import com.jekirdek.client.pojo.SessionUser;
 import com.jekirdek.client.template.DashboardHeader;
 import com.jekirdek.client.template.MenuManager;
 import com.jekirdek.client.template.NavigationManager;
@@ -37,5 +41,17 @@ public class PageUtil {
 		var s = $doc.location.href;
 		return s;
 	}-*/;
+
+	public static boolean controlUserAuthForCompanyUpdate() {
+		// kullanici login olmus ve secili sirkete yetkisi varsa veya admin kullanici ise true
+		SessionUser sessionUser = ClientCacheUtil.instance().getSessionUser();
+		String selectedCompanyOid = ClientCacheUtil.instance().getSessionUser().getSelectedCompanyOid();
+		List<String> authCompanyList = ClientCacheUtil.instance().getSessionUser().getAuthorizedCompanyOidList();
+		if ((RoleType.MEMBER_LOGIN.equals(sessionUser.getAuthorizarionRole()) && authCompanyList.contains(selectedCompanyOid))
+				|| (RoleType.ADMIN.equals(sessionUser.getAuthorizarionRole())))
+			return true;
+		else
+			return false;
+	}
 
 }

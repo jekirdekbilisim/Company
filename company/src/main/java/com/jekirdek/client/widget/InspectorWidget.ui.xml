@@ -46,8 +46,8 @@
 
 					<b:FormGroup>
 						<g:FlowPanel addStyleNames="col-md-offset-3 col-md-4">
-							<b:Button ui:field="updateBtn" type="PRIMARY" icon="PENCIL" visible="false" text="Güncelle" />
-							<b:Button ui:field="deleteBtn" type="DANGER" icon="TRASH_O" visible="false" text="Sil" />
+							<b:Button ui:field="updateBtn" type="PRIMARY" icon="PENCIL" text="Güncelle" />
+							<b:Button ui:field="deleteBtn" type="DANGER" icon="TRASH_O" text="Sil" />
 						</g:FlowPanel>
 					</b:FormGroup>
 				</b:Form>

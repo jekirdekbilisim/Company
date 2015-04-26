@@ -2,6 +2,7 @@ package com.jekirdek.server.dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,10 +14,12 @@ import com.jekirdek.server.entity.AbstractEntity;
 
 public abstract class AbstractDAOImpl<K, E extends AbstractEntity> {
 
-	protected Class<E> entityClass;
+	Logger				logger	= Logger.getLogger(getClass().getName());
+
+	protected Class<E>	entityClass;
 
 	@PersistenceContext(name = "companyUnit")
-	EntityManager entityManager;
+	EntityManager		entityManager;
 
 	@SuppressWarnings("unchecked")
 	public AbstractDAOImpl() {

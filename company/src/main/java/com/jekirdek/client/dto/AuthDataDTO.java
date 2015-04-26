@@ -7,11 +7,11 @@ import com.jekirdek.client.util.MenuItem;
 
 public class AuthDataDTO extends BasicDTO {
 
-	private static final long serialVersionUID = -8316812081423171011L;
+	private static final long	serialVersionUID	= -8316812081423171011L;
 
-	private List<MenuItem> menuItemList;
-	private List<String> privilegeItemList;
-	private SessionUser sessionUser;
+	private List<MenuItem>		menuItemList;
+	private List<String>		privilegeItemList;
+	private SessionUser			sessionUser;
 
 	public AuthDataDTO(List<MenuItem> menuItemList, List<String> privilegeItemList, SessionUser sessionUser) {
 		super();

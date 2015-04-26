@@ -15,16 +15,16 @@ import com.jekirdek.client.dto.UserCompanyAuthData;
 @RemoteServiceRelativePath("proxyServlet/authorizationController")
 public interface AuthorizationController extends RemoteService {
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	public UserCompanyAuthData loadUserCompany(UserCompanyAuthDTO dto) throws Exception;
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	public List<String> saveUserAuthCompany(UserCompanyAuthDTO dto) throws Exception;
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN, RoleType.NOT_LOGIN })
 	public void changeSelectedCompanyWithOid(String companyOid) throws Exception;
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN, RoleType.NOT_LOGIN })
 	public void changeSelectedCompanyWithAlias(String companyAlias) throws Exception;
 
 }

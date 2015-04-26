@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.jekirdek.client.util.ListItem;
 import com.jekirdek.server.entity.CompanyDocument;
@@ -64,7 +65,8 @@ public class DocumentDAOImpl extends AbstractDAOImpl<String, CompanyDocument> im
 
 	@Override
 	public String findDocumentTypeNameByOid(String documentTypeOid) {
-
+		if (StringUtils.isEmpty(documentTypeOid))
+			return null;
 		String sqlStr = "select concat(d.group,'-',d.name) from DocumentType d where d.objid = :documentTypeOid ";
 
 		Query query = getEntityManager().createQuery(sqlStr);

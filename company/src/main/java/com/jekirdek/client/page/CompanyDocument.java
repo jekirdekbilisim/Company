@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Pagination;
 import org.gwtbootstrap3.client.ui.Panel;
@@ -80,6 +81,9 @@ public class CompanyDocument extends AbstractPage implements IPage {
 	@UiField
 	PanelGroup								accordionPanelGroup;
 
+	@UiField
+	Form									documentInsertForm;
+
 	private boolean							fileUploaded		= false;
 	private DocumentDTO						dto					= new DocumentDTO();
 
@@ -88,6 +92,13 @@ public class CompanyDocument extends AbstractPage implements IPage {
 		initEventHandler();
 		loadPageData();
 		loadCompanyDocuments();
+		autorizationControl();
+	}
+
+	private void autorizationControl() {
+		if (!PageUtil.controlUserAuthForCompanyUpdate()) {
+			documentInsertForm.removeFromParent();
+		}
 	}
 
 	private void initEventHandler() {

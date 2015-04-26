@@ -48,9 +48,9 @@ public class AuthorizationControllerImpl extends AbstractController implements A
 
 		SessionUser user = SessionUtil.getSessionUser();
 		List<ListItem> sourceCompanyList = null;
-		if (RoleType.MEMBER.equals(user.getAuthorizarionRole())) {
+		if (RoleType.MEMBER_LOGIN.equals(user.getAuthorizarionRole())) {
 			sourceCompanyList = authorizationDAO.getAllCompany();
-		} else if (RoleType.MEMBER.equals(user.getAuthorizarionRole())) {
+		} else if (RoleType.MEMBER_LOGIN.equals(user.getAuthorizarionRole())) {
 			sourceCompanyList = authorizationDAO.getCompanyByUserOid(user.getObjid());
 		}
 
@@ -103,7 +103,7 @@ public class AuthorizationControllerImpl extends AbstractController implements A
 				UserRole userRole = new UserRole();
 				userRole.setCompany(companyDAO.findByOid(targetItem.getKey()));
 				userRole.setUser(userDAO.findUserByTckn(dto.getUserTckn()));
-				userRole.setRole(authorizationDAO.findRoleByRoleName(RoleType.MEMBER));
+				userRole.setRole(authorizationDAO.findRoleByRoleName(RoleType.MEMBER_LOGIN));
 				authorizationDAO.persistOrUpdate(userRole);
 			}
 		}

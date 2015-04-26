@@ -7,7 +7,7 @@
 	
 	</ui:style>
 	<g:HTMLPanel>
-		<b:Form type="HORIZONTAL" styleName="pageOneColumn">
+		<b:Form type="HORIZONTAL" styleName="pageOneColumn" ui:field="documentInsertForm">
 
 			<b:FormGroup>
 				<b:FormLabel text="Döküman Tipi" for="documentTypeCmb" addStyleNames="col-md-4" />

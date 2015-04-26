@@ -3,6 +3,7 @@ package com.jekirdek.server.dao;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.persistence.Query;
 
@@ -14,8 +15,8 @@ import com.jekirdek.client.constant.ManagerType;
 import com.jekirdek.client.dto.CompanySelectData;
 import com.jekirdek.client.util.ListItem;
 import com.jekirdek.server.entity.Company;
-import com.jekirdek.server.entity.Manager;
 import com.jekirdek.server.entity.Inspector;
+import com.jekirdek.server.entity.Manager;
 
 @Repository("companyDAO")
 @Transactional
@@ -148,25 +149,31 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 		query.setParameter("companyOid", companyOid);
 
 		List<String> result = (List<String>) query.getResultList();
-		if (result == null || result.size() != 1) {
-			throw new Exception(" 1 den fazla şirket bulundu, sadece 1 tane olmasi gerekli");
+		if (result == null || result.size() == 0) {
+			logger.log(Level.WARNING, " Şirket bulunamadı , objid {0}", companyOid);
+			return null;
+		} else if (result.size() > 1) {
+			logger.log(Level.SEVERE, " 1 den fazla Şirket bulundu, objid {0}", companyOid);
 		}
 		return result.get(0);
 	}
 
 	@Override
-	public Blob findLogoByCompanyOid(String selectedCompanyOid) throws Exception {
+	public Blob findLogoByCompanyOid(String companyOid) throws Exception {
 
-		if (selectedCompanyOid == null)
+		if (companyOid == null)
 			return null;
 
 		String sqlStr = "select c.logo.logo from Company c where c.objid = :companyOid";
 		Query query = getEntityManager().createQuery(sqlStr);
-		query.setParameter("companyOid", selectedCompanyOid);
+		query.setParameter("companyOid", companyOid);
 
 		List<Object> result = (List<Object>) query.getResultList();
-		if (result == null || result.size() > 1) {
-			throw new Exception(" 1 den fazla şirket logosu bulundu, sadece 1 tane olmasi gerekli");
+		if (result == null || result.size() == 0) {
+			logger.log(Level.WARNING, " Şirket logosu bulunamadı , objid {0}", companyOid);
+			return null;
+		} else if (result.size() > 1) {
+			logger.log(Level.SEVERE, " 1 den fazla Şirket logosu bulundu, objid {0}", companyOid);
 		}
 		if (result.get(0) instanceof Blob)
 			return ((Blob) result.get(0));
@@ -181,7 +188,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 
 		Company result = findByOid(companyOid);
 		if (result == null) {
-			throw new Exception(" 1 den fazla şirket bulundu, sadece 1 tane olmasi gerekli");
+			logger.log(Level.SEVERE, " İlgili şirket bulunamadı, objid:{0}", companyOid);
 		}
 		return result.getTradeName();
 	}
@@ -197,10 +204,13 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 		query.setParameter("managerOid", managerOid);
 
 		List<Manager> result = (List<Manager>) query.getResultList();
-		if (result == null || result.size() != 1) {
-			throw new Exception(" 1 den fazla Yönetici bulundu, sadece 1 tane olmasi gerekli");
+		if (result == null || result.size() == 0) {
+			logger.log(Level.WARNING, " Yönetici bulunamadı, objid {0}", managerOid);
+			return null;
+		} else if (result.size() > 1) {
+			logger.log(Level.SEVERE, " 1 den fazla Yönetici bulundu, objid {0}", managerOid);
 		}
-		if (ManagerType.REAL.toString().equals(result.get(0).getManagerTye()))
+		if (ManagerType.REAL.equals(result.get(0).getManagerTye()))
 			return result.get(0).getName();
 		else
 			result.get(0).getTradeName();
@@ -218,9 +228,13 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 		query.setParameter("inspectorOid", inspectorOid);
 
 		List<Inspector> result = (List<Inspector>) query.getResultList();
-		if (result == null || result.size() != 1) {
-			throw new Exception(" 1 den fazla Denetçi bulundu, sadece 1 tane olmasi gerekli");
+		if (result == null || result.size() == 0) {
+			logger.log(Level.WARNING, " Denetçi bulunamadı, objid {0}", inspectorOid);
+			return null;
+		} else if (result.size() > 1) {
+			logger.log(Level.SEVERE, " 1 den fazla Denetçi bulundu, objid {0}", inspectorOid);
 		}
+
 		return result.get(0).getName();
 	}
 }

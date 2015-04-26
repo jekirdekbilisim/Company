@@ -18,10 +18,10 @@ public interface LoginMenuController extends RemoteService {
 	@Authorization(roles = { RoleType.NOT_LOGIN })
 	AuthDataDTO controlAndLoginWithTckn(MemberLoginDTO dto) throws Exception;
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN })
 	AuthDataDTO logout(MemberLoginDTO dto) throws Exception;
 
-	@Authorization(roles = { RoleType.MEMBER, RoleType.ADMIN, RoleType.NOT_LOGIN })
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN, RoleType.NOT_LOGIN })
 	AuthDataDTO loadMenuItemsAndPrivileges(String input) throws Exception;
 
 	@Authorization(roles = { RoleType.MEMBER_COMPANY_SELECT })

@@ -112,12 +112,12 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 				sessionUser.setEmail(user.getEmail());
 				sessionUser.setSurname(user.getLastname());
 				sessionUser
-						.setAuthorizedCompanyOidList(companyDAO.findUserAuthorizedCompanyOidListByRole(user.getObjid(), RoleType.MEMBER));
+						.setAuthorizedCompanyOidList(companyDAO.findUserAuthorizedCompanyOidListByRole(user.getObjid(), RoleType.MEMBER_LOGIN));
 				if (sessionUser.getAuthorizedCompanyOidList() != null && sessionUser.getAuthorizedCompanyOidList().size() == 1) {
 					sessionUser.setSelectedCompanyOid(sessionUser.getAuthorizedCompanyOidList().get(0));
 					sessionUser.setSelectedCompanyAlias(companyDAO.findCompanyAliasByOid(sessionUser.getSelectedCompanyOid()));
-					sessionUser.setAuthorizarionRole(RoleType.MEMBER);
-					sessionUser.setMenuRole(RoleType.MEMBER);
+					sessionUser.setAuthorizarionRole(RoleType.MEMBER_LOGIN);
+					sessionUser.setMenuRole(RoleType.MEMBER_LOGIN);
 				} else {
 					sessionUser.setAuthorizarionRole(RoleType.MEMBER_COMPANY_SELECT);
 					sessionUser.setMenuRole(RoleType.MEMBER_COMPANY_SELECT);
@@ -165,8 +165,8 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 		List<String> privilegeList;
 		try {
 			controlCompanyAuthorized(searchDTO);
-			sessionUser.setAuthorizarionRole(RoleType.MEMBER);
-			sessionUser.setMenuRole(RoleType.MEMBER);
+			sessionUser.setAuthorizarionRole(RoleType.MEMBER_LOGIN);
+			sessionUser.setMenuRole(RoleType.MEMBER_LOGIN);
 			sessionUser.setSelectedCompanyOid(searchDTO.getCompanyOid());
 			sessionUser.setSelectedCompanyAlias(searchDTO.getAlias());
 			menuList = loadMenuItems();
