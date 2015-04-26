@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 
 import com.jekirdek.client.util.ListItem;
 import com.jekirdek.server.entity.CompanyDocument;
-import com.jekirdek.server.entity.DocumentDBStore;
+import com.jekirdek.server.entity.DocumentStore;
 import com.jekirdek.server.entity.DocumentType;
 
 @Repository("documentDAO")
@@ -27,11 +27,11 @@ public class DocumentDAOImpl extends AbstractDAOImpl<String, CompanyDocument> im
 	}
 
 	@Override
-	public DocumentDBStore findDocumentDBStoreByOid(String fileDbStoreOid) {
+	public DocumentStore findDocumentStoreByOid(String fileDbStoreOid) {
 		String sqlStr = "select d from DocumentDBStore d where d.objid = :documentOid ";
 		Query query = getEntityManager().createQuery(sqlStr);
 		query.setParameter("documentOid", fileDbStoreOid);
-		List<DocumentDBStore> result = query.getResultList();
+		List<DocumentStore> result = query.getResultList();
 		if (result != null && !result.isEmpty()) {
 			return result.get(0);
 		}
@@ -92,5 +92,22 @@ public class DocumentDAOImpl extends AbstractDAOImpl<String, CompanyDocument> im
 		}
 		return null;
 
+	}
+
+	@Override
+	public CompanyDocument findCompanyDocumentByStoreOid(String documentStoreOid) {
+		String sqlStr = "select c from CompanyDocument c where c.document.objid = :documentStoreOid ";
+
+		Query query = getEntityManager().createQuery(sqlStr);
+		query.setParameter("documentStoreOid", documentStoreOid);
+
+		List<CompanyDocument> result = query.getResultList();
+		if (result == null || result.size() == 0) {
+			logger.error(" Döküman bulunamadı , objid {0}", documentStoreOid);
+			return null;
+		} else if (result.size() > 1) {
+			logger.error(" 1 den fazla Döküman bulundu, objid {0}", documentStoreOid);
+		}
+		return result.get(0);
 	}
 }

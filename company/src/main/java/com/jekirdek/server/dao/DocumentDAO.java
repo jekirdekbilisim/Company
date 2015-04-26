@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.jekirdek.client.util.ListItem;
 import com.jekirdek.server.entity.CompanyDocument;
-import com.jekirdek.server.entity.DocumentDBStore;
+import com.jekirdek.server.entity.DocumentStore;
 import com.jekirdek.server.entity.DocumentType;
 
 public interface DocumentDAO extends AbstractDAO<String, CompanyDocument> {
 
 	List<CompanyDocument> loadCompanyDocument(String selectedCompanyOid);
 
-	DocumentDBStore findDocumentDBStoreByOid(String fileDbStoreOid);
+	DocumentStore findDocumentStoreByOid(String fileDbStoreOid);
 
 	List<ListItem> loadAllDocumentTypeCmb();
 
@@ -20,5 +20,7 @@ public interface DocumentDAO extends AbstractDAO<String, CompanyDocument> {
 	DocumentType findDocumentTypeByOid(String documentTypeOid);
 
 	List<DocumentType> loadAllDocumentType();
+
+	CompanyDocument findCompanyDocumentByStoreOid(String documentStoreOid);
 
 }

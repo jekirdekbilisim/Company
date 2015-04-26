@@ -34,7 +34,7 @@ public class CompanyDocument extends AbstractEntity {
 	@Where(clause = "status='A'")
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "DOCUMENT_OID", nullable = false)
-	private DocumentDBStore	document;
+	private DocumentStore	document;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ANNOUNCEMENT_DATE")
@@ -63,11 +63,11 @@ public class CompanyDocument extends AbstractEntity {
 		this.documentType = documentType;
 	}
 
-	public DocumentDBStore getDocument() {
+	public DocumentStore getDocument() {
 		return document;
 	}
 
-	public void setDocument(DocumentDBStore document) {
+	public void setDocument(DocumentStore document) {
 		this.document = document;
 	}
 

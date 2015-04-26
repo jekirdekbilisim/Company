@@ -11,23 +11,23 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@SQLDelete(sql = "update DOCUMENT_DB_STORE set status='P' where objid=?")
+@SQLDelete(sql = "update DOCUMENT_STORE set status='P' where objid=?")
 @Where(clause = "status='A'")
-@Table(name = "DOCUMENT_DB_STORE")
-public class DocumentDBStore extends AbstractEntity {
+@Table(name = "DOCUMENT_STORE")
+public class DocumentStore extends AbstractEntity {
 
 	@Lob
 	@Column(name = "DOCUMENT")
-	private Blob document;
+	private Blob	document;
 
 	@Column(name = "FILE_NAME", length = 150)
-	private String fileName;
+	private String	fileName;
 
 	@Column(name = "CONTENT_TYPE", length = 150)
-	private String contentType;
+	private String	contentType;
 
 	@Column(name = "FORMATTED_SIZE", length = 20)
-	private String formattedSize;
+	private String	formattedSize;
 
 	public Blob getDocument() {
 		return document;
@@ -79,7 +79,7 @@ public class DocumentDBStore extends AbstractEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DocumentDBStore other = (DocumentDBStore) obj;
+		DocumentStore other = (DocumentStore) obj;
 		if (contentType == null) {
 			if (other.contentType != null)
 				return false;

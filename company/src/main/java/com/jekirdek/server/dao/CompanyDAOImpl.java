@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import com.jekirdek.client.constant.ManagerType;
 import com.jekirdek.client.dto.CompanySelectData;
 import com.jekirdek.client.util.ListItem;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.entity.Company;
 import com.jekirdek.server.entity.Inspector;
 import com.jekirdek.server.entity.Manager;
@@ -89,7 +90,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 	}
 
 	@Override
-	public String findCompanyOidByAlias(String companyAlias) throws Exception {
+	public String findCompanyOidByAlias(String companyAlias) throws MthsException {
 
 		if (companyAlias == null)
 			return null;
@@ -100,7 +101,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 
 		List<String> result = (List<String>) query.getResultList();
 		if (result == null || result.size() != 1) {
-			throw new Exception(" 1 den fazla şirket bulundu, sadece 1 tane olmasi gerekli");
+			throw new MthsException(" 1 den fazla şirket bulundu, sadece 1 tane olmasi gerekli");
 		}
 		return result.get(0);
 	}
@@ -138,7 +139,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 	}
 
 	@Override
-	public String findCompanyAliasByOid(String companyOid) throws Exception {
+	public String findCompanyAliasByOid(String companyOid) throws MthsException {
 
 		if (companyOid == null)
 			return null;
@@ -158,7 +159,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 	}
 
 	@Override
-	public Blob findLogoByCompanyOid(String companyOid) throws Exception {
+	public Blob findLogoByCompanyOid(String companyOid) throws MthsException {
 
 		if (companyOid == null)
 			return null;
@@ -180,7 +181,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 	}
 
 	@Override
-	public String findCompanyNameByOid(String companyOid) throws Exception {
+	public String findCompanyNameByOid(String companyOid) throws MthsException {
 
 		if (companyOid == null)
 			return null;
@@ -193,7 +194,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 	}
 
 	@Override
-	public String findManagerNameByOid(String managerOid) throws Exception {
+	public String findManagerNameByOid(String managerOid) throws MthsException {
 
 		if (StringUtils.isEmpty(managerOid))
 			return null;
@@ -218,7 +219,7 @@ public class CompanyDAOImpl extends AbstractDAOImpl<String, Company> implements 
 	}
 
 	@Override
-	public String findInspectorNameByOid(String inspectorOid) throws Exception {
+	public String findInspectorNameByOid(String inspectorOid) throws MthsException {
 		if (StringUtils.isEmpty(inspectorOid))
 			return null;
 

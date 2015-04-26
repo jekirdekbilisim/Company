@@ -14,7 +14,7 @@
 				</g:FlowPanel>
 			</b:FormGroup>
 
-			<j:Image ui:field="logoImg" addStyleName="maxH175 mT10" />
+			<b:Image ui:field="logoImg" type="ROUNDED" height="150px"/>
 
 		</b:Form>
 	</g:HTMLPanel>

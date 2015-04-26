@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jekirdek.client.controller.LogHistoryController;
 import com.jekirdek.client.dto.LogHistoryDTO;
 import com.jekirdek.client.dto.LogHistoryData;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.dao.ActionLogDAO;
 import com.jekirdek.server.dao.CompanyDAO;
 import com.jekirdek.server.dao.DocumentDAO;
@@ -37,11 +38,11 @@ public class LogHistoryControllerImpl extends AbstractController implements LogH
 	private transient DocumentDAO	documentDAO;
 
 	@Override
-	public List<LogHistoryData> searchLogHistoryByDate(LogHistoryDTO dto) throws Exception {
+	public List<LogHistoryData> searchLogHistoryByDate(LogHistoryDTO dto) throws MthsException {
 		if (dto.getStartDate() == null)
-			throw new Exception("Başlangıç tarihi boş geçilemez");
+			throw new MthsException("Başlangıç tarihi boş geçilemez");
 		if (dto.getFinishDate() == null)
-			throw new Exception("Bitiş tarihi boş geçilemez");
+			throw new MthsException("Bitiş tarihi boş geçilemez");
 
 		Date startDate = minimazeHourMinuteSecond(dto.getStartDate());
 		Date finishDate = maximazeHourMinuteSecond(dto.getFinishDate());

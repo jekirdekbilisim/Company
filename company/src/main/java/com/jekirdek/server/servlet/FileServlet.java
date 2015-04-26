@@ -99,7 +99,7 @@ public class FileServlet extends HttpServlet {
 	private FileDownloadItem readFile(String fileOid) throws ServletException {
 		DocumentController controller = (DocumentController) getBean("documentController");
 		try {
-			return controller.getDocumentDBStoreByOid(fileOid);
+			return controller.getDocumentStoreByOid(fileOid);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

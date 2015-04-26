@@ -13,6 +13,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.jekirdek.client.controller.DocumentController;
 import com.jekirdek.client.dto.CompanyDocumentData;
@@ -20,12 +21,13 @@ import com.jekirdek.client.dto.DocumentDTO;
 import com.jekirdek.client.dto.DocumentTypeDTO;
 import com.jekirdek.client.util.FileDownloadItem;
 import com.jekirdek.client.util.ListItem;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.dao.ActionLogDAO;
 import com.jekirdek.server.dao.CompanyDAO;
 import com.jekirdek.server.dao.DocumentDAO;
 import com.jekirdek.server.dao.UserDAO;
 import com.jekirdek.server.entity.CompanyDocument;
-import com.jekirdek.server.entity.DocumentDBStore;
+import com.jekirdek.server.entity.DocumentStore;
 import com.jekirdek.server.entity.DocumentType;
 import com.jekirdek.server.util.ServerConvertUtil;
 import com.jekirdek.server.util.SessionUtil;
@@ -50,13 +52,13 @@ public class DocumentControllerImpl extends AbstractController implements Docume
 	private transient ActionLogDAO	actionLogDAO;
 
 	@Override
-	public void saveDocument(DocumentDTO dto) throws Exception {
+	public void saveDocument(DocumentDTO dto) throws MthsException {
 		// yetkisiz islem kontrolu
 		SessionUtil.userAuthCompanyControl();
 
 		CompanyDocument companyDocument = new CompanyDocument();
-		DocumentDBStore dbStore = createDBStore(dto.getFileSessionKey());
-		companyDocument.setDocument(dbStore);
+		DocumentStore documentStore = createDocumentStore(dto.getFileSessionKey());
+		companyDocument.setDocument(documentStore);
 		companyDocument.setAnnouncementDate(dto.getAnnouncementDate());
 		companyDocument.setCompany(companyDAO.findByOid(SessionUtil.getSessionUser().getSelectedCompanyOid()));
 		companyDocument.setDocumentType(documentDAO.findDocumentTypeByOid(dto.getDocType()));
@@ -71,12 +73,12 @@ public class DocumentControllerImpl extends AbstractController implements Docume
 		SessionUtil.session.removeAttribute(dto.getFileSessionKey());
 	}
 
-	private DocumentDBStore createDBStore(String fileSessionKey) throws Exception {
+	private DocumentStore createDocumentStore(String fileSessionKey) throws MthsException {
 		FileItem fileItem = (FileItem) SessionUtil.session.getAttribute(fileSessionKey);
 		if (fileItem == null) {
-			throw new Exception("Dosya yüklenemedi, tekrar deneyiniz");
+			throw new MthsException("Dosya yüklenemedi, tekrar deneyiniz");
 		}
-		DocumentDBStore dbStore = new DocumentDBStore();
+		DocumentStore dbStore = new DocumentStore();
 		dbStore.setDocument(ServerConvertUtil.fileItem2Blob(fileItem));
 		dbStore.setContentType(fileItem.getContentType());
 		dbStore.setFileName(fileItem.getName());
@@ -119,8 +121,8 @@ public class DocumentControllerImpl extends AbstractController implements Docume
 	}
 
 	@Override
-	public FileDownloadItem getDocumentDBStoreByOid(String fileDbStoreOid) {
-		DocumentDBStore documentDBStore = documentDAO.findDocumentDBStoreByOid(fileDbStoreOid);
+	public FileDownloadItem getDocumentStoreByOid(String fileDbStoreOid) {
+		DocumentStore documentDBStore = documentDAO.findDocumentStoreByOid(fileDbStoreOid);
 		FileDownloadItem downloadItem = new FileDownloadItem();
 
 		Long length;
@@ -157,5 +159,28 @@ public class DocumentControllerImpl extends AbstractController implements Docume
 			}
 		}
 		return typeDtoList;
+	}
+
+	@Override
+	public void deleteDocumentByOid(String documentStoreOid) throws MthsException {
+		if (StringUtils.isEmpty(documentStoreOid))
+			throw new MthsException("Döküman id boş olamaz");
+
+		userLoginControl();
+
+		CompanyDocument companyDocument = documentDAO.findCompanyDocumentByStoreOid(documentStoreOid);
+		if (companyDocument == null)
+			throw new MthsException("İlgili dosya bulunamamıştır, sayfayı yenileyip tekrar deneyiniz.");
+		if (!SessionUtil.getSessionUser().getAuthorizedCompanyOidList().contains(companyDocument.getCompany().getObjid()))
+			throw new MthsException("Seçtiğiniz şirkete yetkili değilsiniz, sistem yetkilisi ile irtibata geçiniz");
+
+		documentDAO.remove(companyDocument);
+
+	}
+
+	private void userLoginControl() throws MthsException {
+		if (!SessionUtil.getSessionUser().getLogin())
+			throw new MthsException("Bu işlem için sisteme giriş yapmanız gereklidir.");
+
 	}
 }

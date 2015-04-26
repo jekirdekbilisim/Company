@@ -8,6 +8,7 @@ import com.jekirdek.client.annotation.Authorization;
 import com.jekirdek.client.constant.RoleType;
 import com.jekirdek.client.dto.UserCompanyAuthDTO;
 import com.jekirdek.client.dto.UserCompanyAuthData;
+import com.jekirdek.client.util.MthsException;
 
 /**
  * The client side stub for the RPC service.
@@ -16,15 +17,15 @@ import com.jekirdek.client.dto.UserCompanyAuthData;
 public interface AuthorizationController extends RemoteService {
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
-	public UserCompanyAuthData loadUserCompany(UserCompanyAuthDTO dto) throws Exception;
+	public UserCompanyAuthData loadUserCompany(UserCompanyAuthDTO dto) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
-	public List<String> saveUserAuthCompany(UserCompanyAuthDTO dto) throws Exception;
+	public List<String> saveUserAuthCompany(UserCompanyAuthDTO dto) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN, RoleType.NOT_LOGIN })
-	public void changeSelectedCompanyWithOid(String companyOid) throws Exception;
+	public void changeSelectedCompanyWithOid(String companyOid) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN, RoleType.NOT_LOGIN })
-	public void changeSelectedCompanyWithAlias(String companyAlias) throws Exception;
+	public void changeSelectedCompanyWithAlias(String companyAlias) throws MthsException;
 
 }

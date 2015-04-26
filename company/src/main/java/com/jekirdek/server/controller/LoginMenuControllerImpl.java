@@ -15,6 +15,7 @@ import com.jekirdek.client.dto.CompanySearchDTO;
 import com.jekirdek.client.dto.MemberLoginDTO;
 import com.jekirdek.client.pojo.SessionUser;
 import com.jekirdek.client.util.MenuItem;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.dao.CompanyDAO;
 import com.jekirdek.server.dao.MenuDAO;
 import com.jekirdek.server.dao.PrivilegeDAO;
@@ -31,16 +32,16 @@ import com.jekirdek.server.util.SessionUtil;
 public class LoginMenuControllerImpl extends AbstractController implements LoginMenuController {
 
 	@Autowired
-	private transient UserDAO userDAO;
+	private transient UserDAO		userDAO;
 	@Autowired
-	private transient MenuDAO menuDAO;
+	private transient MenuDAO		menuDAO;
 	@Autowired
-	private transient PrivilegeDAO privilegeDAO;
+	private transient PrivilegeDAO	privilegeDAO;
 	@Autowired
-	private transient CompanyDAO companyDAO;
+	private transient CompanyDAO	companyDAO;
 
 	@Override
-	public AuthDataDTO loadMenuItemsAndPrivileges(String input) throws Exception {
+	public AuthDataDTO loadMenuItemsAndPrivileges(String input) throws MthsException {
 		SessionUser userInfo = SessionUtil.getSessionUser();
 		List<MenuItem> menuList = loadMenuItems();
 		List<String> privilegeList = loadPrivilegeItems();
@@ -66,7 +67,7 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 		return privilegeItemList;
 	}
 
-	private List<MenuItem> loadMenuItems() throws Exception {
+	private List<MenuItem> loadMenuItems() throws MthsException {
 		// kullanici login mi kontrolu
 		SessionUser userInfo = SessionUtil.getSessionUser();
 
@@ -77,7 +78,7 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 			menuList = menuDAO.findMenuByRole(RoleType.NOT_LOGIN);
 		}
 		if (menuList == null)
-			throw new Exception("Menu load error, menu list null");
+			throw new MthsException("Menu load error, menu list null");
 
 		ArrayList<MenuItem> menuItemList = new ArrayList<MenuItem>();
 		for (Menu menu : menuList) {
@@ -96,7 +97,7 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 	}
 
 	@Transactional
-	public AuthDataDTO controlAndLoginWithTckn(MemberLoginDTO dto) throws Exception {
+	public AuthDataDTO controlAndLoginWithTckn(MemberLoginDTO dto) throws MthsException {
 		SessionUser sessionUser;
 		List<MenuItem> menuList;
 		List<String> privilegeList;
@@ -111,8 +112,8 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 				sessionUser.setLogin(Boolean.TRUE);
 				sessionUser.setEmail(user.getEmail());
 				sessionUser.setSurname(user.getLastname());
-				sessionUser
-						.setAuthorizedCompanyOidList(companyDAO.findUserAuthorizedCompanyOidListByRole(user.getObjid(), RoleType.MEMBER_LOGIN));
+				sessionUser.setAuthorizedCompanyOidList(companyDAO.findUserAuthorizedCompanyOidListByRole(user.getObjid(),
+						RoleType.MEMBER_LOGIN));
 				if (sessionUser.getAuthorizedCompanyOidList() != null && sessionUser.getAuthorizedCompanyOidList().size() == 1) {
 					sessionUser.setSelectedCompanyOid(sessionUser.getAuthorizedCompanyOidList().get(0));
 					sessionUser.setSelectedCompanyAlias(companyDAO.findCompanyAliasByOid(sessionUser.getSelectedCompanyOid()));
@@ -124,21 +125,21 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 				}
 			} else {
 				SessionUtil.removeSessionUserFromSession();
-				throw new Exception("Kullanıcı Bulunamadı");
+				throw new MthsException("Kullanıcı Bulunamadı");
 			}
 			menuList = loadMenuItems();
 			privilegeList = loadPrivilegeItems();
 		}
 		catch (Exception e) {
 			SessionUtil.removeSessionUserFromSession();
-			throw new Exception("Kullanıcı Bulunamadı");
+			throw new MthsException("Kullanıcı Bulunamadı");
 		}
 
 		return new AuthDataDTO(menuList, privilegeList, sessionUser);
 	}
 
 	@Override
-	public AuthDataDTO logout(MemberLoginDTO dto) throws Exception {
+	public AuthDataDTO logout(MemberLoginDTO dto) throws MthsException {
 		String selectedCompanyOid = SessionUtil.getSessionUser().getSelectedCompanyOid();
 		String selectedCompanyAlias = SessionUtil.getSessionUser().getSelectedCompanyAlias();
 		// user remove from session
@@ -159,7 +160,7 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 	}
 
 	@Override
-	public AuthDataDTO authCompanySelected(CompanySearchDTO searchDTO) throws Exception {
+	public AuthDataDTO authCompanySelected(CompanySearchDTO searchDTO) throws MthsException {
 		SessionUser sessionUser = SessionUtil.getSessionUser();
 		List<MenuItem> menuList;
 		List<String> privilegeList;
@@ -174,28 +175,28 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 		}
 		catch (Exception e) {
 			SessionUtil.removeSessionUserFromSession();
-			throw new Exception("Kullanıcı Bulunamadı");
+			throw new MthsException("Kullanıcı Bulunamadı");
 		}
 
 		return new AuthDataDTO(menuList, privilegeList, sessionUser);
 	}
 
-	private void controlCompanyAuthorized(CompanySearchDTO searchDTO) throws Exception {
+	private void controlCompanyAuthorized(CompanySearchDTO searchDTO) throws MthsException {
 		Boolean companyAuthorized = Boolean.FALSE;
 		for (String companyOid : SessionUtil.getSessionUser().getAuthorizedCompanyOidList()) {
 			if (companyOid.equals(searchDTO.getCompanyOid()))
 				companyAuthorized = Boolean.TRUE;
 		}
 		if (!companyAuthorized)
-			throw new Exception("Seçtiğiniz şirket yetkili olduğunuz şirketler arasında bulunmamaktadır");
+			throw new MthsException("Seçtiğiniz şirket yetkili olduğunuz şirketler arasında bulunmamaktadır");
 	}
 
 	@Override
-	public AuthDataDTO adminLogin(AdminLoginDTO dto) throws Exception {
+	public AuthDataDTO adminLogin(AdminLoginDTO dto) throws MthsException {
 
 		User user = userDAO.loginControlUser(dto);
 		if (user == null) {
-			throw new Exception("Kullanıcı adı ve şifre uyuşmuyor. Lütfen Tekrar Deneyiniz");
+			throw new MthsException("Kullanıcı adı ve şifre uyuşmuyor. Lütfen Tekrar Deneyiniz");
 		}
 
 		SessionUser sessionUser;
@@ -225,7 +226,7 @@ public class LoginMenuControllerImpl extends AbstractController implements Login
 		}
 		catch (Exception e) {
 			SessionUtil.removeSessionUserFromSession();
-			throw new Exception("Kullanıcı Bulunamadı");
+			throw new MthsException("Kullanıcı Bulunamadı");
 		}
 
 		return new AuthDataDTO(menuList, privilegeList, sessionUser);

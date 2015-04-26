@@ -13,6 +13,7 @@ import com.jekirdek.client.dto.UserCompanyAuthDTO;
 import com.jekirdek.client.dto.UserCompanyAuthData;
 import com.jekirdek.client.pojo.SessionUser;
 import com.jekirdek.client.util.ListItem;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.dao.ActionLogDAO;
 import com.jekirdek.server.dao.AuthorizationDAO;
 import com.jekirdek.server.dao.CompanyDAO;
@@ -28,23 +29,23 @@ import com.jekirdek.server.util.SessionUtil;
 public class AuthorizationControllerImpl extends AbstractController implements AuthorizationController {
 
 	@Autowired
-	private transient AuthorizationDAO authorizationDAO;
+	private transient AuthorizationDAO	authorizationDAO;
 
 	@Autowired
-	private transient UserDAO userDAO;
+	private transient UserDAO			userDAO;
 
 	@Autowired
-	private transient CompanyDAO companyDAO;
+	private transient CompanyDAO		companyDAO;
 
 	@Autowired
-	private transient ActionLogDAO actionLogDAO;
+	private transient ActionLogDAO		actionLogDAO;
 
 	@Override
 	@Transactional
-	public UserCompanyAuthData loadUserCompany(UserCompanyAuthDTO dto) throws Exception {
+	public UserCompanyAuthData loadUserCompany(UserCompanyAuthDTO dto) throws MthsException {
 
 		if (dto == null || StringUtils.isEmpty(dto.getUserTckn()))
-			throw new Exception("Kullanıcı kimlik bilgisi bos olamaz");
+			throw new MthsException("Kullanıcı kimlik bilgisi bos olamaz");
 
 		SessionUser user = SessionUtil.getSessionUser();
 		List<ListItem> sourceCompanyList = null;
@@ -68,11 +69,11 @@ public class AuthorizationControllerImpl extends AbstractController implements A
 
 	@Override
 	@Transactional
-	public List<String> saveUserAuthCompany(UserCompanyAuthDTO dto) throws Exception {
+	public List<String> saveUserAuthCompany(UserCompanyAuthDTO dto) throws MthsException {
 
 		// TODO bu kullanici bilgisi client taraftan alinmamasi gerekli, session a atilabilir ilk sorguda
 		if (dto == null || StringUtils.isEmpty(dto.getUserTckn()))
-			throw new Exception("Kullanıcı kimlik bilgisi bos olamaz");
+			throw new MthsException("Kullanıcı kimlik bilgisi bos olamaz");
 
 		// yetkisi alinmis sirketler bulunup db den siliniyor
 		processDeletedUserCompanyAuth(dto);
@@ -85,7 +86,7 @@ public class AuthorizationControllerImpl extends AbstractController implements A
 		return user.getAuthorizedCompanyOidList();
 	}
 
-	private void processAddUserCompanyAuth(UserCompanyAuthDTO dto) throws Exception {
+	private void processAddUserCompanyAuth(UserCompanyAuthDTO dto) throws MthsException {
 		List<ListItem> targetCompanyDBList = authorizationDAO.getCompanyByUserTckn(dto.getUserTckn());
 
 		// silinmis olanlar tespit ediliyor
@@ -109,7 +110,7 @@ public class AuthorizationControllerImpl extends AbstractController implements A
 		}
 	}
 
-	private void processDeletedUserCompanyAuth(UserCompanyAuthDTO dto) throws Exception {
+	private void processDeletedUserCompanyAuth(UserCompanyAuthDTO dto) throws MthsException {
 
 		List<ListItem> targetCompanyDBList = authorizationDAO.getCompanyByUserTckn(dto.getUserTckn());
 
@@ -132,13 +133,13 @@ public class AuthorizationControllerImpl extends AbstractController implements A
 	}
 
 	@Override
-	public void changeSelectedCompanyWithOid(String companyOid) throws Exception {
+	public void changeSelectedCompanyWithOid(String companyOid) throws MthsException {
 		SessionUtil.getSessionUser().setSelectedCompanyOid(companyOid);
 		SessionUtil.getSessionUser().setSelectedCompanyAlias(companyDAO.findCompanyAliasByOid(companyOid));
 	}
 
 	@Override
-	public void changeSelectedCompanyWithAlias(String companyAlias) throws Exception {
+	public void changeSelectedCompanyWithAlias(String companyAlias) throws MthsException {
 		SessionUtil.getSessionUser().setSelectedCompanyOid(companyDAO.findCompanyOidByAlias(companyAlias));
 		SessionUtil.getSessionUser().setSelectedCompanyAlias(companyAlias);
 	}

@@ -12,6 +12,7 @@ import com.jekirdek.client.dto.CompanySearchDTO;
 import com.jekirdek.client.dto.CompanySearchSuggestDTO;
 import com.jekirdek.client.dto.CompanySelectData;
 import com.jekirdek.client.util.ListItem;
+import com.jekirdek.client.util.MthsException;
 
 /**
  * The client side stub for the RPC service.
@@ -20,13 +21,13 @@ import com.jekirdek.client.util.ListItem;
 public interface CompanyController extends RemoteService {
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
-	public void saveUpdateCompany(CompanyInfoDTO companyDTO) throws Exception;
+	public void saveUpdateCompany(CompanyInfoDTO companyDTO) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	public void logoUpload(CompanyLogoDTO dto);
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
-	public byte[] getLogoByte(String companyOid) throws Exception;
+	public byte[] getLogoByte(String companyOid) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
 	public Boolean companyHasLogo(String companyOid);
@@ -35,7 +36,7 @@ public interface CompanyController extends RemoteService {
 	public CompanyInfoDTO loadCompanyInfo(CompanySearchDTO searchDTO);
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN, RoleType.NOT_LOGIN })
-	public List<ListItem> searchCompanySuggest(CompanySearchSuggestDTO dto) throws Exception;
+	public List<ListItem> searchCompanySuggest(CompanySearchSuggestDTO dto) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN })
 	List<CompanySelectData> loadAuthCompany(String str);

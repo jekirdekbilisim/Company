@@ -11,6 +11,8 @@ import javax.sql.rowset.serial.SerialException;
 
 import org.apache.commons.fileupload.FileItem;
 
+import com.jekirdek.client.util.MthsException;
+
 public class ServerConvertUtil {
 
 	public static Clob fileItem2Clob(FileItem fileItem) {
@@ -21,11 +23,14 @@ public class ServerConvertUtil {
 		try {
 			fileContent = new String(fileItem.get(), "UTF-8");
 			clob = new SerialClob(fileContent.toCharArray());
-		} catch (UnsupportedEncodingException e) {
+		}
+		catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -38,9 +43,11 @@ public class ServerConvertUtil {
 		String fileContent = null;
 		try {
 			fileContent = new String(fileItem.get(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
+		}
+		catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -56,15 +63,17 @@ public class ServerConvertUtil {
 		return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
 	}
 
-	public static Blob fileItem2Blob(FileItem fileItem) throws Exception {
+	public static Blob fileItem2Blob(FileItem fileItem) throws MthsException {
 		if (fileItem == null || fileItem.get() == null)
-			throw new Exception("Dosya boş veya hatalı, tekrar dener misiniz?");
+			throw new MthsException("Dosya boş veya hatalı, tekrar dener misiniz?");
 		Blob blob = null;
 		try {
 			blob = new SerialBlob(fileItem.get());
-		} catch (SerialException e) {
+		}
+		catch (SerialException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return blob;

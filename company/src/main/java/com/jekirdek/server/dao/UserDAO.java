@@ -1,6 +1,7 @@
 package com.jekirdek.server.dao;
 
 import com.jekirdek.client.dto.AdminLoginDTO;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.entity.User;
 
 public interface UserDAO extends AbstractDAO<String, User> {
@@ -9,6 +10,6 @@ public interface UserDAO extends AbstractDAO<String, User> {
 
 	User loginControlUser(AdminLoginDTO dto);
 
-	String findUserNameByOid(String effectedUserOid) throws Exception;
+	String findUserNameByOid(String effectedUserOid) throws MthsException;
 
 }

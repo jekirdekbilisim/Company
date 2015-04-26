@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import com.jekirdek.client.pojo.SessionUser;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.constant.ServerConstant;
 
 public class SessionUtil {
@@ -25,9 +26,9 @@ public class SessionUtil {
 		session.removeAttribute(ServerConstant.SESSION_USER);
 	}
 
-	public static void userAuthCompanyControl() throws Exception {
+	public static void userAuthCompanyControl() throws MthsException {
 		if (!SessionUtil.getSessionUser().getAuthorizedCompanyOidList().contains(SessionUtil.getSessionUser().getSelectedCompanyOid())) {
-			throw new Exception("İşlem yapmaya çalıştığınız şirket yetkili olduğunuz şirketler arasında değildir.");
+			throw new MthsException("İşlem yapmaya çalıştığınız şirket yetkili olduğunuz şirketler arasında değildir.");
 		}
 	}
 }

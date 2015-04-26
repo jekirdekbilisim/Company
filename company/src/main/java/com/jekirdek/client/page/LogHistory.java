@@ -107,13 +107,13 @@ public class LogHistory extends AbstractPage implements IPage {
 				return object.getUser();
 			}
 		};
-		TextColumn<LogHistoryData> effectedUserName = new TextColumn<LogHistoryData>() {
-
-			@Override
-			public String getValue(LogHistoryData object) {
-				return object.getEffectedUser();
-			}
-		};
+		// TextColumn<LogHistoryData> effectedUserName = new TextColumn<LogHistoryData>() {
+		//
+		// @Override
+		// public String getValue(LogHistoryData object) {
+		// return object.getEffectedUser();
+		// }
+		// };
 		TextColumn<LogHistoryData> companyName = new TextColumn<LogHistoryData>() {
 
 			@Override
@@ -145,7 +145,7 @@ public class LogHistory extends AbstractPage implements IPage {
 
 		logGrid.addColumn(actionLogType, messages.LogHistory_actionLogType());
 		logGrid.addColumn(userName, messages.LogHistory_userName());
-		logGrid.addColumn(effectedUserName, messages.LogHistory_effectedUserName());
+		// logGrid.addColumn(effectedUserName, messages.LogHistory_effectedUserName());
 		logGrid.addColumn(companyName, messages.LogHistory_companyName());
 		logGrid.addColumn(documentTypeName, messages.LogHistory_documentTypeName());
 		logGrid.addColumn(managerName, messages.LogHistory_managerName());

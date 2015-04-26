@@ -45,9 +45,6 @@ public class CompanyRegister extends AbstractPage implements IPage {
 	interface CompanyRegisterUiBinder extends UiBinder<Widget, CompanyRegister> {
 	}
 
-	/**
-	 * Create a remote service proxy to talk to the server-side Login service.
-	 */
 	private final CompanyControllerAsync	companyController	= GWT.create(CompanyController.class);
 
 	@UiField
@@ -76,9 +73,6 @@ public class CompanyRegister extends AbstractPage implements IPage {
 
 	private void loadPageData() {
 		loadCompanyTypeCmbData();
-		// true if user login
-		// companySearchDTO.setWithObjId(Boolean.TRUE);
-		// companySearchDTO.setAlias(ClientCacheUtil.instance().getSessionUser().getSelectedCompanyAlias());
 		companyController.loadCompanyInfo(companySearchDTO, new AsyncCall<CompanyInfoDTO>() {
 			@Override
 			public void successCall(CompanyInfoDTO result) {
@@ -89,12 +83,12 @@ public class CompanyRegister extends AbstractPage implements IPage {
 	}
 
 	private void loadCompanyTypeCmbData() {
-		companyType.addItem(CompanyType.ANONIM, CompanyType.ANONIM);
-		companyType.addItem(CompanyType.IRTIBAT_BUROSU, CompanyType.IRTIBAT_BUROSU);
-		companyType.addItem(CompanyType.KOLEKTIF, CompanyType.KOLEKTIF);
-		companyType.addItem(CompanyType.KOMANDIT, CompanyType.KOMANDIT);
-		companyType.addItem(CompanyType.LIMITED, CompanyType.LIMITED);
-		companyType.addItem(CompanyType.SUBE, CompanyType.SUBE);
+		companyType.addItem(CompanyType.getDesc(CompanyType.ANONIM), CompanyType.ANONIM);
+		companyType.addItem(CompanyType.getDesc(CompanyType.IRTIBAT_BUROSU), CompanyType.IRTIBAT_BUROSU);
+		companyType.addItem(CompanyType.getDesc(CompanyType.KOLEKTIF), CompanyType.KOLEKTIF);
+		companyType.addItem(CompanyType.getDesc(CompanyType.KOMANDIT), CompanyType.KOMANDIT);
+		companyType.addItem(CompanyType.getDesc(CompanyType.LIMITED), CompanyType.LIMITED);
+		companyType.addItem(CompanyType.getDesc(CompanyType.SUBE), CompanyType.SUBE);
 	}
 
 	private void initEventListener() {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.jekirdek.client.dto.CompanySelectData;
 import com.jekirdek.client.util.ListItem;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.entity.Company;
 
 public interface CompanyDAO extends AbstractDAO<String, Company> {
@@ -19,20 +20,20 @@ public interface CompanyDAO extends AbstractDAO<String, Company> {
 
 	List<ListItem> searchAllCompanyForSuggest();
 
-	String findCompanyOidByAlias(String companyAlias) throws Exception;
+	String findCompanyOidByAlias(String companyAlias) throws MthsException;
 
 	List<String> findUserAuthorizedCompanyOidListByRole(String userOid, String roleName);
 
-	String findCompanyAliasByOid(String companyOid) throws Exception;
+	String findCompanyAliasByOid(String companyOid) throws MthsException;
 
 	List<CompanySelectData> findUserAuthorizedCompanyListByRole(String userOid, String roleName);
 
-	Blob findLogoByCompanyOid(String selectedCompanyOid) throws Exception;
+	Blob findLogoByCompanyOid(String selectedCompanyOid) throws MthsException;
 
-	String findCompanyNameByOid(String companyOid) throws Exception;
+	String findCompanyNameByOid(String companyOid) throws MthsException;
 
-	String findManagerNameByOid(String managerOid) throws Exception;
+	String findManagerNameByOid(String managerOid) throws MthsException;
 
-	String findInspectorNameByOid(String inspectorOid) throws Exception;
+	String findInspectorNameByOid(String inspectorOid) throws MthsException;
 
 }

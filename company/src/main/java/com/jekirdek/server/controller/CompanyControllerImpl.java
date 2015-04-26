@@ -28,6 +28,7 @@ import com.jekirdek.client.dto.CompanySelectData;
 import com.jekirdek.client.dto.InspectorDTO;
 import com.jekirdek.client.dto.ManagerDTO;
 import com.jekirdek.client.util.ListItem;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.dao.ActionLogDAO;
 import com.jekirdek.server.dao.CompanyDAO;
 import com.jekirdek.server.entity.Company;
@@ -51,13 +52,13 @@ public class CompanyControllerImpl extends AbstractController implements Company
 
 	@Override
 	@Transactional
-	public void saveUpdateCompany(CompanyInfoDTO dto) throws Exception {
+	public void saveUpdateCompany(CompanyInfoDTO dto) throws MthsException {
 		// company exist control
 		Company company = companyDAO.findByAlias(SessionUtil.getSessionUser().getSelectedCompanyAlias());
 
 		// yetkisiz islem kontrolu
 		if (!SessionUtil.getSessionUser().getAuthorizedCompanyOidList().contains(company.getObjid())) {
-			throw new Exception("İşlem yapmaya çalıştığınız şirket yetkili olduğunuz şirketler arasında değildir.");
+			throw new MthsException("İşlem yapmaya çalıştığınız şirket yetkili olduğunuz şirketler arasında değildir.");
 		}
 
 		company.setCommittedCapital(dto.getCompanyDTO().getCommittedCapital());
@@ -241,7 +242,7 @@ public class CompanyControllerImpl extends AbstractController implements Company
 
 	@Override
 	@Transactional
-	public byte[] getLogoByte(String companyOid) throws Exception {
+	public byte[] getLogoByte(String companyOid) throws MthsException {
 		if (!StringUtils.isEmpty(companyOid)) {
 			Blob companyLogo = companyDAO.findLogoByCompanyOid(companyOid);
 			if (companyLogo != null)
@@ -328,7 +329,7 @@ public class CompanyControllerImpl extends AbstractController implements Company
 	}
 
 	@Override
-	public List<ListItem> searchCompanySuggest(CompanySearchSuggestDTO dto) throws Exception {
+	public List<ListItem> searchCompanySuggest(CompanySearchSuggestDTO dto) throws MthsException {
 		return companyDAO.searchAllCompanyForSuggest();
 	}
 

@@ -15,6 +15,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.jekirdek.client.annotation.Authorization;
 import com.jekirdek.client.constant.RoleType;
 import com.jekirdek.client.pojo.SessionUser;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.util.SessionUtil;
 
 @SuppressWarnings("serial")
@@ -38,7 +39,7 @@ public class ProxyServlet extends RemoteServiceServlet {
 			Object handler = getBean(request);
 			RPCRequest rpcRequest = RPC.decodeRequest(payload, handler.getClass(), this);
 			if (!controlAuthorization(rpcRequest)) {
-				throw new Exception("Yetkisiz Erişim, Erişmeye çalıştığınız sayfaya yetkiniz yoktur." + handler.toString()
+				throw new MthsException("Yetkisiz Erişim, Erişmeye çalıştığınız sayfaya yetkiniz yoktur." + handler.toString()
 						+ rpcRequest.getMethod());
 			}
 			onAfterRequestDeserialized(rpcRequest);
@@ -55,7 +56,7 @@ public class ProxyServlet extends RemoteServiceServlet {
 		}
 	}
 
-	private Boolean controlAuthorization(RPCRequest rpcRequest) throws Exception {
+	private Boolean controlAuthorization(RPCRequest rpcRequest) throws MthsException {
 		if (rpcRequest.getMethod().isAnnotationPresent(Authorization.class)) {
 			Authorization authorization = rpcRequest.getMethod().getAnnotation(Authorization.class);
 			// AuthorizationController controller = getAuthorizationBean();
@@ -69,7 +70,7 @@ public class ProxyServlet extends RemoteServiceServlet {
 			}
 			return hasAuthorize;
 		} else {
-			throw new Exception(rpcRequest.getMethod().getName()
+			throw new MthsException(rpcRequest.getMethod().getName()
 					+ " The method does not have authorization annotation, control method annotation");
 		}
 	}

@@ -8,6 +8,7 @@ import com.jekirdek.client.dto.AdminLoginDTO;
 import com.jekirdek.client.dto.AuthDataDTO;
 import com.jekirdek.client.dto.CompanySearchDTO;
 import com.jekirdek.client.dto.MemberLoginDTO;
+import com.jekirdek.client.util.MthsException;
 
 /**
  * The client side stub for the RPC service.
@@ -16,18 +17,18 @@ import com.jekirdek.client.dto.MemberLoginDTO;
 public interface LoginMenuController extends RemoteService {
 
 	@Authorization(roles = { RoleType.NOT_LOGIN })
-	AuthDataDTO controlAndLoginWithTckn(MemberLoginDTO dto) throws Exception;
+	AuthDataDTO controlAndLoginWithTckn(MemberLoginDTO dto) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.MEMBER_COMPANY_SELECT, RoleType.ADMIN })
-	AuthDataDTO logout(MemberLoginDTO dto) throws Exception;
+	AuthDataDTO logout(MemberLoginDTO dto) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN, RoleType.NOT_LOGIN })
-	AuthDataDTO loadMenuItemsAndPrivileges(String input) throws Exception;
+	AuthDataDTO loadMenuItemsAndPrivileges(String input) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_COMPANY_SELECT })
-	AuthDataDTO authCompanySelected(CompanySearchDTO searchDTO) throws Exception;
+	AuthDataDTO authCompanySelected(CompanySearchDTO searchDTO) throws MthsException;
 
 	@Authorization(roles = { RoleType.NOT_LOGIN })
-	AuthDataDTO adminLogin(AdminLoginDTO dto) throws Exception;
+	AuthDataDTO adminLogin(AdminLoginDTO dto) throws MthsException;
 
 }

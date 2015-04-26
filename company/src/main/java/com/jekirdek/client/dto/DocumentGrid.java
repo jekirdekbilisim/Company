@@ -9,11 +9,11 @@ public class DocumentGrid implements IsSerializable, Serializable {
 
 	private static final long	serialVersionUID	= -859340668983893170L;
 
-	private String				fileName;
+	private String				documentName;
 
 	private Date				announcementDate;
 
-	private String				fileObjid;
+	private String				documentStoreOid;
 
 	public DocumentGrid() {
 		super();
@@ -21,16 +21,16 @@ public class DocumentGrid implements IsSerializable, Serializable {
 
 	public DocumentGrid(String fileName, Date announcementDate) {
 		super();
-		this.fileName = fileName;
+		this.documentName = fileName;
 		this.announcementDate = announcementDate;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public String getDocumentName() {
+		return documentName;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setDocumentName(String fileName) {
+		this.documentName = fileName;
 	}
 
 	public Date getAnnouncementDate() {
@@ -41,12 +41,12 @@ public class DocumentGrid implements IsSerializable, Serializable {
 		this.announcementDate = announcementDate;
 	}
 
-	public String getFileObjid() {
-		return fileObjid;
+	public String getDocumentStoreOid() {
+		return documentStoreOid;
 	}
 
-	public void setFileObjid(String fileObjid) {
-		this.fileObjid = fileObjid;
+	public void setDocumentStoreOid(String fileObjid) {
+		this.documentStoreOid = fileObjid;
 	}
 
 	@Override
@@ -54,8 +54,8 @@ public class DocumentGrid implements IsSerializable, Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((announcementDate == null) ? 0 : announcementDate.hashCode());
-		result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
-		result = prime * result + ((fileObjid == null) ? 0 : fileObjid.hashCode());
+		result = prime * result + ((documentName == null) ? 0 : documentName.hashCode());
+		result = prime * result + ((documentStoreOid == null) ? 0 : documentStoreOid.hashCode());
 		return result;
 	}
 
@@ -73,21 +73,21 @@ public class DocumentGrid implements IsSerializable, Serializable {
 				return false;
 		} else if (!announcementDate.equals(other.announcementDate))
 			return false;
-		if (fileName == null) {
-			if (other.fileName != null)
+		if (documentName == null) {
+			if (other.documentName != null)
 				return false;
-		} else if (!fileName.equals(other.fileName))
+		} else if (!documentName.equals(other.documentName))
 			return false;
-		if (fileObjid == null) {
-			if (other.fileObjid != null)
+		if (documentStoreOid == null) {
+			if (other.documentStoreOid != null)
 				return false;
-		} else if (!fileObjid.equals(other.fileObjid))
+		} else if (!documentStoreOid.equals(other.documentStoreOid))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DocumentGrid [fileName=" + fileName + ", announcementDate=" + announcementDate + ", fileObjid=" + fileObjid + "]";
+		return "DocumentGrid [fileName=" + documentName + ", announcementDate=" + announcementDate + ", fileObjid=" + documentStoreOid + "]";
 	}
 }

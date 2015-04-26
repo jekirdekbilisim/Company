@@ -1,5 +1,8 @@
 package com.jekirdek.client.page;
 
+import org.gwtbootstrap3.client.ui.Image;
+import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,7 +15,6 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.jekirdek.client.component.FileInput;
 import com.jekirdek.client.component.FileUploaded;
-import com.jekirdek.client.component.Image;
 import com.jekirdek.client.controller.CompanyController;
 import com.jekirdek.client.controller.CompanyControllerAsync;
 import com.jekirdek.client.dto.CompanyLogoDTO;
@@ -21,7 +23,6 @@ import com.jekirdek.client.util.ClientCacheUtil;
 import com.jekirdek.client.util.FileAsyncCall;
 import com.jekirdek.client.util.PageUtil;
 import com.jekirdek.client.util.UrlUtil;
-import com.jekirdek.client.widget.MessageBox;
 
 public class CompanyLogoUpload extends AbstractPage implements IPage {
 
@@ -42,22 +43,19 @@ public class CompanyLogoUpload extends AbstractPage implements IPage {
 	public CompanyLogoUpload() {
 		initWidget(uiBinder.createAndBindUi(this));
 		initEventHandler();
-		loadComponent();
+		loadCompanyLogo();
 
 	}
 
-	private void loadComponent() {
+	private void loadCompanyLogo() {
 		String companyOid = ClientCacheUtil.instance().getSessionUser().getSelectedCompanyOid();
-		logoImg.addStyleName("maxH175");
 		logoImg.setUrl(UrlUtil.generateLogoViewUrl(companyOid));
-
 	}
 
 	private void initEventHandler() {
 		fileInput.addCompletedCallback(new FileAsyncCall<SubmitCompleteEvent>() {
 			@Override
 			public void successCall(SubmitCompleteEvent result) {
-				showUploadedImage();
 				fileInput.getUploadBtn().setEnabled(true);
 			}
 		});
@@ -80,17 +78,14 @@ public class CompanyLogoUpload extends AbstractPage implements IPage {
 		});
 	}
 
-	private void showUploadedImage() {
-
-	}
-
 	private void saveCompanyLogo() {
 		dto.setLogoFileSessionKey(fileInput.getFileSessionKey());
 		companyService.logoUpload(dto, new AsyncCall<Void>() {
 			@Override
 			public void successCall(Void result) {
 				PageUtil.dashboardHeader.renderCompanyLogo();
-				new MessageBox("işleminiz başarılı olarak gerçekleştirilmiştir");
+				loadCompanyLogo();
+				Bootbox.alert("Dosya yükleme işleminiz başarılı olarak gerçekleştirilmiştir");
 			}
 		});
 	}

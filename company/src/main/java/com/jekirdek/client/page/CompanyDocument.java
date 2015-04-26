@@ -21,8 +21,10 @@ import org.gwtbootstrap3.client.ui.constants.Toggle;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
 import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
+import org.gwtbootstrap3.extras.bootbox.client.callback.ConfirmCallback;
 import org.gwtbootstrap3.extras.datetimepicker.client.ui.DateTimePicker;
 import org.gwtbootstrap3.extras.growl.client.ui.Growl;
+import org.gwtbootstrap3.extras.growl.client.ui.GrowlType;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
@@ -90,7 +92,7 @@ public class CompanyDocument extends AbstractPage implements IPage {
 	public CompanyDocument() {
 		initWidget(uiBinder.createAndBindUi(this));
 		initEventHandler();
-		loadPageData();
+		loadCmbData();
 		loadCompanyDocuments();
 		autorizationControl();
 	}
@@ -165,17 +167,20 @@ public class CompanyDocument extends AbstractPage implements IPage {
 				saveBtn.setEnabled(false);
 				fileUploaded = false;
 				saveBtn.setEnabled(false);
+				loadCompanyDocuments();
 			}
 		});
 	}
 
-	private void loadPageData() {
-		documentController.loadAllDocumentTypeCmb("", new AsyncCall<List<ListItem>>() {
-			@Override
-			public void successCall(List<ListItem> result) {
-				documentTypeCmb.addItemList(result);
-			}
-		});
+	private void loadCmbData() {
+		if (!PageUtil.controlUserAuthForCompanyUpdate()) {
+			documentController.loadAllDocumentTypeCmb("", new AsyncCall<List<ListItem>>() {
+				@Override
+				public void successCall(List<ListItem> result) {
+					documentTypeCmb.addItemList(result);
+				}
+			});
+		}
 
 	}
 
@@ -183,6 +188,7 @@ public class CompanyDocument extends AbstractPage implements IPage {
 		documentController.loadCompanyDocumentList("", new AsyncCall<List<CompanyDocumentData>>() {
 			@Override
 			public void successCall(List<CompanyDocumentData> result) {
+				accordionPanelGroup.clear();
 				if (result != null) {
 					loadCompanyDocumentWidget(result);
 				}
@@ -192,6 +198,7 @@ public class CompanyDocument extends AbstractPage implements IPage {
 	}
 
 	private void loadCompanyDocumentWidget(List<CompanyDocumentData> result) {
+
 		// aynı dokuman tipini ayni kategoride toplama icin
 		HashMap<String, List<CompanyDocumentData>> documentMap = groupDocumentByType(result);
 		for (String docTypeOid : documentMap.keySet()) {
@@ -231,7 +238,7 @@ public class CompanyDocument extends AbstractPage implements IPage {
 
 			@Override
 			public String getValue(final DocumentGrid object) {
-				return String.valueOf(object.getFileName());
+				return String.valueOf(object.getDocumentName());
 			}
 		};
 		grid.addColumn(col1, "Dosya Adı");
@@ -254,11 +261,26 @@ public class CompanyDocument extends AbstractPage implements IPage {
 		col4.setFieldUpdater(new FieldUpdater<DocumentGrid, String>() {
 			@Override
 			public void update(int index, DocumentGrid object, String value) {
-				Growl.growl("Clicked!");
-				Window.open(UrlUtil.generateFileDownloadUrl(object.getFileObjid()), "_blank", "");
+				Window.open(UrlUtil.generateFileDownloadUrl(object.getDocumentStoreOid()), "_blank", "");
 			}
 		});
 		grid.addColumn(col4, "İndir");
+
+		if (PageUtil.controlUserAuthForCompanyUpdate()) {
+			final Column<DocumentGrid, String> col5 = new Column<DocumentGrid, String>(new ButtonCell(ButtonType.DANGER, IconType.TRASH)) {
+				@Override
+				public String getValue(DocumentGrid object) {
+					return "Dosyayı Sil";
+				}
+			};
+			col5.setFieldUpdater(new FieldUpdater<DocumentGrid, String>() {
+				@Override
+				public void update(int index, DocumentGrid object, String value) {
+					deleteDocumentConfirm(object);
+				}
+			});
+			grid.addColumn(col5, "Sil");
+		}
 
 		grid.addRangeChangeHandler(new RangeChangeEvent.Handler() {
 
@@ -287,12 +309,40 @@ public class CompanyDocument extends AbstractPage implements IPage {
 		for (CompanyDocumentData companyDocumentData : list) {
 			DocumentGrid documentGrid = new DocumentGrid();
 			documentGrid.setAnnouncementDate(companyDocumentData.getAnnouncementDate());
-			documentGrid.setFileName(companyDocumentData.getFileName());
-			documentGrid.setFileObjid(companyDocumentData.getDocDbStoreOid());
+			documentGrid.setDocumentName(companyDocumentData.getFileName());
+			documentGrid.setDocumentStoreOid(companyDocumentData.getDocDbStoreOid());
 			dataProvider.getList().add(documentGrid);
 		}
 		dataProvider.flush();
 		pagination.rebuild(pager);
+	}
+
+	protected void deleteDocumentConfirm(final DocumentGrid deletedDocument) {
+		Bootbox.confirm("Seçili dosya silinecektir, Emin misiniz?", new ConfirmCallback() {
+
+			@Override
+			public void callback(boolean result) {
+				deleteDocument(deletedDocument);
+			}
+		});
+	}
+
+	protected void deleteDocument(final DocumentGrid deletedDocument) {
+		documentController.deleteDocumentByOid(deletedDocument.getDocumentStoreOid(), new AsyncCall<Void>() {
+			@Override
+			public void successCall(Void result) {
+				deleteSuccessMessage();
+				loadCompanyDocuments();
+			}
+		});
+	}
+
+	protected void deleteSuccessMessage() {
+		// GrowlOptions go = new GrowlOptions();
+		// go.setPosition(GrowlPosition.TOP_CENTER);
+		// go.setType(GrowlType.WARNING);
+		// go.setIconType(IconType.WARNING.getCssName());
+		Growl.growl("Silme işlemi başarılı bir şekilde sonuçlanmıştır", GrowlType.SUCCESS);
 	}
 
 	/**

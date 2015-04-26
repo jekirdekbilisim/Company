@@ -15,10 +15,12 @@ public interface DocumentControllerAsync {
 
 	void loadCompanyDocumentList(String string, AsyncCallback<List<CompanyDocumentData>> callback);
 
-	void getDocumentDBStoreByOid(String fileDbStoreOid, AsyncCallback<FileDownloadItem> callback);
+	void getDocumentStoreByOid(String fileDbStoreOid, AsyncCallback<FileDownloadItem> callback);
 
 	void loadAllDocumentTypeCmb(String param, AsyncCallback<List<ListItem>> callback);
 
 	void loadAllDocumentType(String string, AsyncCallback<List<DocumentTypeDTO>> callback);
+
+	void deleteDocumentByOid(String documentStoreOid, AsyncCallback<Void> callback);
 
 }

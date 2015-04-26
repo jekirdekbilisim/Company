@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.jekirdek.client.dto.AdminLoginDTO;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.entity.User;
 
 @Repository("userDAO")
@@ -40,12 +41,12 @@ public class UserDAOImpl extends AbstractDAOImpl<String, User> implements UserDA
 	}
 
 	@Override
-	public String findUserNameByOid(String userOid) throws Exception {
+	public String findUserNameByOid(String userOid) throws MthsException {
 		if (StringUtils.isEmpty(userOid))
 			return null;
 		User user = findByOid(userOid);
 		if (user == null)
-			throw new Exception("Kullanıcı bulunamadı");
+			throw new MthsException("Kullanıcı bulunamadı");
 		return user.getFullName();
 	}
 
