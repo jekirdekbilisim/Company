@@ -84,8 +84,7 @@ public class CompanyLogoUpload extends AbstractPage implements IPage {
 			@Override
 			public void successCall(Void result) {
 				PageUtil.dashboardHeader.renderCompanyLogo();
-				loadCompanyLogo();
-				Bootbox.alert("Dosya yükleme işleminiz başarılı olarak gerçekleştirilmiştir");
+				Bootbox.alert("Dosya yükleme işleminiz başarılı olarak gerçekleştirilmiştir. Resmi görmek için sayfayı yenileyiniz.");
 			}
 		});
 	}

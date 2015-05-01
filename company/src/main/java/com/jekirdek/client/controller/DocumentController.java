@@ -37,4 +37,7 @@ public interface DocumentController extends RemoteService {
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	void deleteDocumentByOid(String documentStoreOid) throws MthsException;
 
+	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
+	void saveDocumentType(DocumentTypeDTO dto) throws MthsException;
+
 }

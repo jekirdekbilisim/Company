@@ -23,4 +23,6 @@ public interface DocumentControllerAsync {
 
 	void deleteDocumentByOid(String documentStoreOid, AsyncCallback<Void> callback);
 
+	void saveDocumentType(DocumentTypeDTO dto, AsyncCallback<Void> callback);
+
 }

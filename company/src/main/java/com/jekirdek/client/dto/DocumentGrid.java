@@ -15,6 +15,8 @@ public class DocumentGrid implements IsSerializable, Serializable {
 
 	private String				documentStoreOid;
 
+	private Date				uploadDate;
+
 	public DocumentGrid() {
 		super();
 	}
@@ -88,6 +90,15 @@ public class DocumentGrid implements IsSerializable, Serializable {
 
 	@Override
 	public String toString() {
-		return "DocumentGrid [fileName=" + documentName + ", announcementDate=" + announcementDate + ", fileObjid=" + documentStoreOid + "]";
+		return "DocumentGrid [fileName=" + documentName + ", announcementDate=" + announcementDate + ", fileObjid=" + documentStoreOid
+				+ "]";
+	}
+
+	public Date getUploadDate() {
+		return uploadDate;
+	}
+
+	public void setUploadDate(Date uploadDate) {
+		this.uploadDate = uploadDate;
 	}
 }

@@ -6,20 +6,24 @@ package com.jekirdek.client.page;
 import java.util.List;
 
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Pagination;
+import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.IconType;
+import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
+import org.gwtbootstrap3.client.ui.gwt.CellTable;
 
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.SingleSelectionModel;
-import com.jekirdek.client.component.GridData;
-import com.jekirdek.client.component.TextField;
+import com.google.gwt.view.client.ListDataProvider;
 import com.jekirdek.client.controller.DocumentController;
 import com.jekirdek.client.controller.DocumentControllerAsync;
 import com.jekirdek.client.dto.DocumentTypeDTO;
@@ -36,18 +40,23 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 	interface DocumentTypeUiBinder extends UiBinder<Widget, DocumentTypeCreate> {
 	}
 
-	private final DocumentControllerAsync	documentAsync	= GWT.create(DocumentController.class);
+	private final DocumentControllerAsync	documentController	= GWT.create(DocumentController.class);
 
 	@UiField
-	TextField								groupTxt, nameTxt;
+	TextBox									groupTxt, nameTxt;
 
 	@UiField
 	Button									saveBtn, clearBtn;
 
 	@UiField
-	GridData<DocumentTypeDTO>				docTypeTbl;
+	CellTable<DocumentTypeDTO>				docTypeGrid;
 
-	private DocumentTypeDTO					dto				= new DocumentTypeDTO();
+	@UiField
+	Pagination								docTypePagination;
+
+	private DocumentTypeDTO					dto					= new DocumentTypeDTO();
+	final SimplePager						pager				= new SimplePager();
+	final ListDataProvider<DocumentTypeDTO>	dataProvider		= new ListDataProvider<>();
 
 	public DocumentTypeCreate() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -58,30 +67,45 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 
 	private void initGridData() {
 
-		// doc typecelltable
-		docTypeTbl.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		TextColumn<DocumentTypeDTO> documentGroupClm = new TextColumn<DocumentTypeDTO>() {
 
-		TextColumn<DocumentTypeDTO> docTypeNameClm = new TextColumn<DocumentTypeDTO>() {
+			@Override
+			public String getValue(DocumentTypeDTO object) {
+				return object.getGroup();
+			}
+		};
+		documentGroupClm.setSortable(true);
+		docTypeGrid.addColumn(documentGroupClm, "Döküman Grubu");
+
+		TextColumn<DocumentTypeDTO> documentTypeClm = new TextColumn<DocumentTypeDTO>() {
 
 			@Override
 			public String getValue(DocumentTypeDTO object) {
 				return object.getName();
 			}
 		};
-		docTypeNameClm.setSortable(true);
-		docTypeTbl.addColumn(docTypeNameClm, "Döküman Class Adı");
+		documentTypeClm.setSortable(true);
+		docTypeGrid.addColumn(documentTypeClm, "Döküman Tipi");
 
-		final SingleSelectionModel<DocumentTypeDTO> selectionModelDocType = new SingleSelectionModel<DocumentTypeDTO>();
-		docTypeTbl.setSelectionModel(selectionModelDocType);
-		docTypeTbl.addDomHandler(new DoubleClickHandler() {
-
+		final Column<DocumentTypeDTO, String> updateClm = new Column<DocumentTypeDTO, String>(new ButtonCell(ButtonType.PRIMARY,
+				IconType.PENCIL)) {
 			@Override
-			public void onDoubleClick(DoubleClickEvent event) {
-				dto = selectionModelDocType.getSelectedObject();
-				preparePageUpdate();
+			public String getValue(DocumentTypeDTO object) {
+				return "Güncelle";
 			}
+		};
+		updateClm.setFieldUpdater(new FieldUpdater<DocumentTypeDTO, String>() {
+			@Override
+			public void update(int index, DocumentTypeDTO row, String value) {
+				preparePageUpdate(row);
+			}
+		});
+		docTypeGrid.addColumn(updateClm, "Güncelle");
 
-		}, DoubleClickEvent.getType());
+		pager.setDisplay(docTypeGrid);
+		pager.setPageSize(5);
+		dataProvider.addDataDisplay(docTypeGrid);
+		docTypePagination.rebuild(pager);
 
 	}
 
@@ -106,17 +130,22 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 	}
 
 	private void loadDocTypeTable() {
-		documentAsync.loadAllDocumentType("", new AsyncCall<List<DocumentTypeDTO>>() {
+		documentController.loadAllDocumentType("", new AsyncCall<List<DocumentTypeDTO>>() {
 
 			@Override
 			public void successCall(List<DocumentTypeDTO> result) {
-				docTypeTbl.putDataList(result);
+				dataProvider.getList().clear();
+				dataProvider.getList().addAll(result);
+				dataProvider.flush();
+				docTypePagination.rebuild(pager);
 			}
 		});
 	}
 
-	private void preparePageUpdate() {
-		nameTxt.setFieldValue(dto.getName());
+	private void preparePageUpdate(DocumentTypeDTO row) {
+		groupTxt.setText(row.getGroup());
+		nameTxt.setText(row.getName());
+		dto.setObjid(row.getObjid());
 	}
 
 	private void loadPageData() {
@@ -124,20 +153,24 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 	}
 
 	private void saveOrUpdateDocType() {
-		dto.setName(nameTxt.getFieldValue());
-		dto.setGroup(nameTxt.getFieldValue());
-		/*
-		 * documentAsync.saveDocType(dto, new AsyncCall<Void>() {
-		 * 
-		 * @Override public void successCall(Void result) { refreshPage(); loadDocTypeTable(); }
-		 * 
-		 * });
-		 */
+		dto.setName(nameTxt.getText());
+		dto.setGroup(nameTxt.getText());
+
+		documentController.saveDocumentType(dto, new AsyncCall<Void>() {
+
+			@Override
+			public void successCall(Void result) {
+				refreshPage();
+				loadDocTypeTable();
+			}
+
+		});
+
 	}
 
 	private void refreshPage() {
-		nameTxt.setFieldValue("");
-		docTypeTbl.clear();
+		groupTxt.setText("");
+		nameTxt.setText("");
 		dto = new DocumentTypeDTO();
 	}
 

@@ -20,7 +20,7 @@ public class CompanyDocumentData extends BasicDTO {
 
 	private String				uploadUser;
 
-	private String				uploadDate;
+	private Date				uploadDate;
 
 	public String getDocDbStoreOid() {
 		return docDbStoreOid;
@@ -144,11 +144,11 @@ public class CompanyDocumentData extends BasicDTO {
 		this.uploadUser = uploadUser;
 	}
 
-	public String getUploadDate() {
+	public Date getUploadDate() {
 		return uploadDate;
 	}
 
-	public void setUploadDate(String uploadDate) {
+	public void setUploadDate(Date uploadDate) {
 		this.uploadDate = uploadDate;
 	}
 

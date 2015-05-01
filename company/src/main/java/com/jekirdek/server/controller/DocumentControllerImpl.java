@@ -104,7 +104,7 @@ public class DocumentControllerImpl extends AbstractController implements Docume
 			documentData.setDocType(companyDocument.getDocumentType().getName());
 			documentData.setFileName(companyDocument.getDocument().getFileName());
 			documentData.setAnnouncementDate(companyDocument.getAnnouncementDate());
-
+			documentData.setUploadDate(companyDocument.getUploadDate());
 			documentDataList.add(documentData);
 		}
 		return documentDataList;
@@ -175,6 +175,12 @@ public class DocumentControllerImpl extends AbstractController implements Docume
 			throw new MthsException("Seçtiğiniz şirkete yetkili değilsiniz, sistem yetkilisi ile irtibata geçiniz");
 
 		documentDAO.remove(companyDocument);
+
+	}
+
+	@Override
+	public void saveDocumentType(DocumentTypeDTO dto) throws MthsException {
+		// TODO Auto-generated method stub
 
 	}
 

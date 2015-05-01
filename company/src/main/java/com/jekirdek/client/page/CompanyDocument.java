@@ -1,6 +1,7 @@
 package com.jekirdek.client.page;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
@@ -173,7 +175,7 @@ public class CompanyDocument extends AbstractPage implements IPage {
 	}
 
 	private void loadCmbData() {
-		if (!PageUtil.controlUserAuthForCompanyUpdate()) {
+		if (PageUtil.controlUserAuthForCompanyUpdate()) {
 			documentController.loadAllDocumentTypeCmb("", new AsyncCall<List<ListItem>>() {
 				@Override
 				public void successCall(List<ListItem> result) {
@@ -247,10 +249,19 @@ public class CompanyDocument extends AbstractPage implements IPage {
 
 			@Override
 			public String getValue(final DocumentGrid object) {
-				return String.valueOf(object.getAnnouncementDate());
+				return formatDate(object.getAnnouncementDate());
 			}
 		};
 		grid.addColumn(col2, "İlan Tarihi");
+
+		final TextColumn<DocumentGrid> col3 = new TextColumn<DocumentGrid>() {
+
+			@Override
+			public String getValue(final DocumentGrid object) {
+				return formatDate(object.getUploadDate());
+			}
+		};
+		grid.addColumn(col3, "Yükleme Tarihi");
 
 		final Column<DocumentGrid, String> col4 = new Column<DocumentGrid, String>(new ButtonCell(ButtonType.PRIMARY, IconType.DOWNLOAD)) {
 			@Override
@@ -309,12 +320,17 @@ public class CompanyDocument extends AbstractPage implements IPage {
 		for (CompanyDocumentData companyDocumentData : list) {
 			DocumentGrid documentGrid = new DocumentGrid();
 			documentGrid.setAnnouncementDate(companyDocumentData.getAnnouncementDate());
+			documentGrid.setUploadDate(companyDocumentData.getUploadDate());
 			documentGrid.setDocumentName(companyDocumentData.getFileName());
 			documentGrid.setDocumentStoreOid(companyDocumentData.getDocDbStoreOid());
 			dataProvider.getList().add(documentGrid);
 		}
 		dataProvider.flush();
 		pagination.rebuild(pager);
+	}
+
+	protected String formatDate(Date date) {
+		return date == null ? "" : DateTimeFormat.getFormat("dd.MM.yyyy HH:ss:mm").format(date);
 	}
 
 	protected void deleteDocumentConfirm(final DocumentGrid deletedDocument) {

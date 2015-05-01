@@ -20,6 +20,7 @@ import com.jekirdek.client.page.CompanyInfo;
 import com.jekirdek.client.page.CompanyLogoUpload;
 import com.jekirdek.client.page.CompanyRegister;
 import com.jekirdek.client.page.CorpManagerRegister;
+import com.jekirdek.client.page.DocumentTypeCreate;
 import com.jekirdek.client.page.InspectorRegister;
 import com.jekirdek.client.page.LogHistory;
 import com.jekirdek.client.page.MemberLogin;
@@ -158,6 +159,8 @@ public class NavigationManager extends FlowPanel {
 			return new CompanyDocument_2();
 		} else if (pageFriendlyUrl.equals(URLConstant.COMPANY_DOCUMENT)) {
 			return new CompanyDocument();
+		} else if (pageFriendlyUrl.equals(URLConstant.DOCUMENT_TYPE_CREATE)) {
+			return new DocumentTypeCreate();
 		} else if (pageFriendlyUrl.equals(URLConstant.ADMIN_LOGIN)) {
 			return new AdminLogin();
 		} else if (pageFriendlyUrl.equals(URLConstant.LOG_HISTORY)) {

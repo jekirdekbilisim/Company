@@ -27,5 +27,6 @@ public class URLConstant {
 	public static final String	COMPANY_DOCUMENT_2			= "company-document2";
 	public static final String	COMPANY_DOCUMENT			= "company-document";
 	public static final String	LOG_HISTORY					= "log-history";
+	public static final String	DOCUMENT_TYPE_CREATE		= "document-type-create";
 
 }
