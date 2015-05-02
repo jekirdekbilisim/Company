@@ -8,24 +8,24 @@
 	</ui:style>
 	<g:HTMLPanel styleName="pageOneColumn">
 		<b:Form type="HORIZONTAL">
-			<b:FormGroup>
+			<b:FormGroup ui:field="groupFG">
 				<b:FormLabel text="Döküman Grubu" for="groupTxt" addStyleNames="col-md-3" />
 				<g:FlowPanel addStyleNames="col-md-9">
-					<b:TextBox ui:field="groupTxt" b:id="groupTxt" />
+					<b:TextBox ui:field="groupTxt" b:id="groupTxt" validateOnBlur="true" allowBlank="false"/>
 				</g:FlowPanel>
 			</b:FormGroup>
 
-			<b:FormGroup>
+			<b:FormGroup ui:field="nameFG">
 				<b:FormLabel text="Döküman Tipi" for="nameTxt" addStyleNames="col-md-3" />
 				<g:FlowPanel addStyleNames="col-md-9">
-					<b:TextBox ui:field="nameTxt" b:id="nameTxt" />
+					<b:TextBox ui:field="nameTxt" b:id="nameTxt" validateOnBlur="true" allowBlank="false"/>
 				</g:FlowPanel>
 			</b:FormGroup>
 
 			<b:FormGroup>
 				<g:FlowPanel addStyleNames="col-md-offset-3 col-md-4">
 					<b:Button ui:field="saveBtn" text="Kaydet" type="PRIMARY" icon="SAVE" />
-					<b:Button ui:field="clearBtn" text="Temizle" type="DANGER" icon="UNDO" />
+					<b:Button ui:field="clearBtn" text="Temizle" type="DANGER" icon="TRASH" />
 				</g:FlowPanel>
 			</b:FormGroup>
 		</b:Form>

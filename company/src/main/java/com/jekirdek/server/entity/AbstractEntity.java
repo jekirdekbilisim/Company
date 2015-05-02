@@ -22,18 +22,18 @@ public abstract class AbstractEntity {
 	@GenericGenerator(name = "generator", strategy = "guid", parameters = {})
 	@GeneratedValue(generator = "generator")
 	@Column(name = "OBJID", nullable = false)
-	private String objid;
+	private String	objid;
 
-	@Column(name = "STATUS", length = 1)
-	private String status;
+	@Column(name = "STATUS", length = 1, nullable = false)
+	private String	status;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATE_DATE")
-	private Date createDate;
+	@Column(name = "CREATE_DATE", nullable = false)
+	private Date	createDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATE_DATE")
-	private Date lastUpdateDate;
+	private Date	lastUpdateDate;
 
 	@PrePersist
 	void preInsert() {

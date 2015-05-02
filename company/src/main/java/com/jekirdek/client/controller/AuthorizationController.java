@@ -7,7 +7,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.jekirdek.client.annotation.Authorization;
 import com.jekirdek.client.constant.RoleType;
 import com.jekirdek.client.dto.UserCompanyAuthDTO;
-import com.jekirdek.client.dto.UserCompanyAuthData;
+import com.jekirdek.client.dto.UserCompanyAuthDTO;
 import com.jekirdek.client.util.MthsException;
 
 /**
@@ -17,7 +17,7 @@ import com.jekirdek.client.util.MthsException;
 public interface AuthorizationController extends RemoteService {
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
-	public UserCompanyAuthData loadUserCompany(UserCompanyAuthDTO dto) throws MthsException;
+	public UserCompanyAuthDTO loadUserCompany(UserCompanyAuthDTO dto) throws MthsException;
 
 	@Authorization(roles = { RoleType.MEMBER_LOGIN, RoleType.ADMIN })
 	public List<String> saveUserAuthCompany(UserCompanyAuthDTO dto) throws MthsException;

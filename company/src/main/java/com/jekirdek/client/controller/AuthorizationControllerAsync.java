@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jekirdek.client.dto.UserCompanyAuthDTO;
-import com.jekirdek.client.dto.UserCompanyAuthData;
+import com.jekirdek.client.dto.UserCompanyAuthDTO;
 
 public interface AuthorizationControllerAsync {
-	public void loadUserCompany(UserCompanyAuthDTO dto, AsyncCallback<UserCompanyAuthData> callback);
+	public void loadUserCompany(UserCompanyAuthDTO dto, AsyncCallback<UserCompanyAuthDTO> callback);
 
 	public void saveUserAuthCompany(UserCompanyAuthDTO dto, AsyncCallback<List<String>> callback);
 

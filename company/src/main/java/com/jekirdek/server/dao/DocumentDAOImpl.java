@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.jekirdek.client.util.ListItem;
+import com.jekirdek.client.util.MthsException;
 import com.jekirdek.server.entity.CompanyDocument;
 import com.jekirdek.server.entity.DocumentStore;
 import com.jekirdek.server.entity.DocumentType;
@@ -40,7 +41,7 @@ public class DocumentDAOImpl extends AbstractDAOImpl<String, CompanyDocument> im
 
 	@Override
 	public List<ListItem> loadAllDocumentTypeCmb() {
-		String sqlStr = "select d.objid,concat(d.group,'-',d.name) from DocumentType d ";
+		String sqlStr = "select d.objid,concat(d.groupName,'-',d.name) from DocumentType d ";
 
 		Query query = getEntityManager().createQuery(sqlStr);
 
@@ -67,7 +68,7 @@ public class DocumentDAOImpl extends AbstractDAOImpl<String, CompanyDocument> im
 	public String findDocumentTypeNameByOid(String documentTypeOid) {
 		if (StringUtils.isEmpty(documentTypeOid))
 			return null;
-		String sqlStr = "select concat(d.group,'-',d.name) from DocumentType d where d.objid = :documentTypeOid ";
+		String sqlStr = "select concat(d.groupname,'-',d.name) from DocumentType d where d.objid = :documentTypeOid ";
 
 		Query query = getEntityManager().createQuery(sqlStr);
 		query.setParameter("documentTypeOid", documentTypeOid);
@@ -109,5 +110,19 @@ public class DocumentDAOImpl extends AbstractDAOImpl<String, CompanyDocument> im
 			logger.error(" 1 den fazla Döküman bulundu, objid {0}", documentStoreOid);
 		}
 		return result.get(0);
+	}
+
+	@Override
+	public void persistOrUpdateDocumentType(DocumentType documentType) throws MthsException {
+		if (StringUtils.isEmpty(documentType.getObjid()))
+			getEntityManager().persist(documentType);
+		else
+			getEntityManager().merge(documentType);
+	}
+
+	@Override
+	public void deleteDocumentTypeByOid(String documentTypeOid) throws MthsException {
+		DocumentType documentType = findDocumentTypeByOid(documentTypeOid);
+		getEntityManager().remove(documentType);
 	}
 }

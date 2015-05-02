@@ -13,18 +13,18 @@ import org.hibernate.annotations.Where;
 @Table(name = "DOCUMENT_TYPE")
 public class DocumentType extends AbstractEntity {
 
-	@Column(name = "GROUP", length = 255)
-	private String	group;
+	@Column(name = "GROUP_NAME", length = 255, nullable = false)
+	private String	groupName;
 
-	@Column(name = "NAME", length = 255)
+	@Column(name = "NAME", length = 255, nullable = false)
 	private String	name;
 
-	public String getGroup() {
-		return group;
+	public String getGroupName() {
+		return groupName;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
 	public String getName() {
@@ -39,7 +39,7 @@ public class DocumentType extends AbstractEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((group == null) ? 0 : group.hashCode());
+		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -53,10 +53,10 @@ public class DocumentType extends AbstractEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		DocumentType other = (DocumentType) obj;
-		if (group == null) {
-			if (other.group != null)
+		if (groupName == null) {
+			if (other.groupName != null)
 				return false;
-		} else if (!group.equals(other.group))
+		} else if (!groupName.equals(other.groupName))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -68,7 +68,7 @@ public class DocumentType extends AbstractEntity {
 
 	@Override
 	public String toString() {
-		return "DocumentType [group=" + group + ", name=" + name + "]";
+		return "DocumentType [group=" + groupName + ", name=" + name + "]";
 	}
 
 }

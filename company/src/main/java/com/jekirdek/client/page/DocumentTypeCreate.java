@@ -6,12 +6,16 @@ package com.jekirdek.client.page;
 import java.util.List;
 
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Pagination;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
+import org.gwtbootstrap3.client.ui.constants.ValidationState;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
+import org.gwtbootstrap3.extras.bootbox.client.Bootbox;
+import org.gwtbootstrap3.extras.bootbox.client.callback.ConfirmCallback;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
@@ -54,6 +58,9 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 	@UiField
 	Pagination								docTypePagination;
 
+	@UiField
+	FormGroup								groupFG, nameFG;
+
 	private DocumentTypeDTO					dto					= new DocumentTypeDTO();
 	final SimplePager						pager				= new SimplePager();
 	final ListDataProvider<DocumentTypeDTO>	dataProvider		= new ListDataProvider<>();
@@ -61,11 +68,11 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 	public DocumentTypeCreate() {
 		initWidget(uiBinder.createAndBindUi(this));
 		initEventHandler();
-		initGridData();
+		initCellTable();
 		loadPageData();
 	}
 
-	private void initGridData() {
+	private void initCellTable() {
 
 		TextColumn<DocumentTypeDTO> documentGroupClm = new TextColumn<DocumentTypeDTO>() {
 
@@ -102,6 +109,21 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 		});
 		docTypeGrid.addColumn(updateClm, "Güncelle");
 
+		final Column<DocumentTypeDTO, String> deleteClm = new Column<DocumentTypeDTO, String>(new ButtonCell(ButtonType.DANGER,
+				IconType.TRASH)) {
+			@Override
+			public String getValue(DocumentTypeDTO object) {
+				return "Sil";
+			}
+		};
+		deleteClm.setFieldUpdater(new FieldUpdater<DocumentTypeDTO, String>() {
+			@Override
+			public void update(int index, DocumentTypeDTO row, String value) {
+				deleteDocumentType(row);
+			}
+		});
+		docTypeGrid.addColumn(deleteClm, "Sil");
+
 		pager.setDisplay(docTypeGrid);
 		pager.setPageSize(5);
 		dataProvider.addDataDisplay(docTypeGrid);
@@ -111,11 +133,13 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 
 	private void initEventHandler() {
 
+		nameTxt.setValidateOnBlur(true);
+		nameTxt.setAllowBlank(false);
 		clearBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				refreshPage();
+				clearPage();
 			}
 		});
 
@@ -154,23 +178,65 @@ public class DocumentTypeCreate extends AbstractPage implements IPage {
 
 	private void saveOrUpdateDocType() {
 		dto.setName(nameTxt.getText());
-		dto.setGroup(nameTxt.getText());
+		dto.setGroup(groupTxt.getText());
+		if (validationControl()) {
+			documentController.saveDocumentType(dto, new AsyncCall<Void>() {
 
-		documentController.saveDocumentType(dto, new AsyncCall<Void>() {
+				@Override
+				public void successCall(Void result) {
+					Bootbox.alert("Kaydetme işleminiz başarılı sonuçlanmıştır.");
+					clearPage();
+					loadDocTypeTable();
+				}
 
-			@Override
-			public void successCall(Void result) {
-				refreshPage();
-				loadDocTypeTable();
-			}
-
-		});
-
+			});
+		}
 	}
 
-	private void refreshPage() {
+	private boolean validationControl() {
+		boolean result = true;
+		if (nameTxt.getText() == null || nameTxt.getText().isEmpty()) {
+			nameFG.setValidationState(ValidationState.ERROR);
+			result = false;
+		} else {
+			nameFG.setValidationState(ValidationState.NONE);
+		}
+		if (groupTxt.getText() == null || groupTxt.getText().isEmpty()) {
+			groupFG.setValidationState(ValidationState.ERROR);
+			result = false;
+		} else {
+			groupFG.setValidationState(ValidationState.NONE);
+		}
+		return result;
+	}
+
+	protected void deleteDocumentTyprConfirm(final DocumentTypeDTO row) {
+		Bootbox.confirm("Döküman tipi silinecektir, Emin misiniz?", new ConfirmCallback() {
+
+			@Override
+			public void callback(boolean result) {
+				if (result)
+					deleteDocumentType(row);
+			}
+		});
+	}
+
+	protected void deleteDocumentType(DocumentTypeDTO row) {
+		documentController.deleteDocumentTypeByOid(row.getObjid(), new AsyncCall<Void>() {
+			@Override
+			public void successCall(Void result) {
+				Bootbox.alert("Silme işleminiz başarılı sonuçlanmıştır.");
+				clearPage();
+				loadDocTypeTable();
+			}
+		});
+	}
+
+	private void clearPage() {
 		groupTxt.setText("");
 		nameTxt.setText("");
+		nameFG.setValidationState(ValidationState.NONE);
+		groupFG.setValidationState(ValidationState.NONE);
 		dto = new DocumentTypeDTO();
 	}
 

@@ -15,12 +15,12 @@ import com.jekirdek.server.entity.AbstractEntity;
 
 public abstract class AbstractDAOImpl<K, E extends AbstractEntity> {
 
-	Logger				logger	= LoggerFactory.getLogger(getClass().getName());
+	Logger					logger	= LoggerFactory.getLogger(getClass().getName());
 
-	protected Class<E>	entityClass;
+	protected Class<E>		entityClass;
 
 	@PersistenceContext(name = "companyUnit")
-	EntityManager		entityManager;
+	private EntityManager	entityManager;
 
 	@SuppressWarnings("unchecked")
 	public AbstractDAOImpl() {

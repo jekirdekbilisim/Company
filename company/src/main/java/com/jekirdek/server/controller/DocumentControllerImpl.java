@@ -155,7 +155,7 @@ public class DocumentControllerImpl extends AbstractController implements Docume
 
 		if (typeList != null) {
 			for (DocumentType type : typeList) {
-				typeDtoList.add(new DocumentTypeDTO(type.getObjid(), type.getGroup(), type.getName()));
+				typeDtoList.add(new DocumentTypeDTO(type.getObjid(), type.getGroupName(), type.getName()));
 			}
 		}
 		return typeDtoList;
@@ -180,8 +180,23 @@ public class DocumentControllerImpl extends AbstractController implements Docume
 
 	@Override
 	public void saveDocumentType(DocumentTypeDTO dto) throws MthsException {
-		// TODO Auto-generated method stub
+		DocumentType documentType = null;
+		// if objid not empty,update
+		if (!StringUtils.isEmpty(dto.getObjid()))
+			documentType = documentDAO.findDocumentTypeByOid(dto.getObjid());
+		else
+			documentType = new DocumentType();
 
+		documentType.setGroupName(dto.getGroup());
+		documentType.setName(dto.getName());
+		documentDAO.persistOrUpdateDocumentType(documentType);
+	}
+
+	@Override
+	public void deleteDocumentTypeByOid(String documentTypeOid) throws MthsException {
+		if (StringUtils.isEmpty(documentTypeOid))
+			throw new MthsException("Döküman tipi id boş olamaz.");
+		documentDAO.deleteDocumentTypeByOid(documentTypeOid);
 	}
 
 	private void userLoginControl() throws MthsException {

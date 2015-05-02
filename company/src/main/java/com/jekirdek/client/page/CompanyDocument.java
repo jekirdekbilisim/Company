@@ -338,7 +338,8 @@ public class CompanyDocument extends AbstractPage implements IPage {
 
 			@Override
 			public void callback(boolean result) {
-				deleteDocument(deletedDocument);
+				if (result)
+					deleteDocument(deletedDocument);
 			}
 		});
 	}

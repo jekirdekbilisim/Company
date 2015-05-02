@@ -6,37 +6,70 @@ import com.jekirdek.client.util.ListItem;
 
 public class UserCompanyAuthDTO extends BasicDTO {
 
-	private static final long serialVersionUID = 4590863652343138762L;
+	private static final long	serialVersionUID	= 4590863652343138762L;
 
-	private String userTckn;
+	private String				tckn;
 
-	private List<ListItem> sourceItemList;
+	private String				name;
 
-	private List<ListItem> targetItemList;
+	private String				surname;
 
-	public List<ListItem> getSourceItemList() {
-		return sourceItemList;
+	private String				userOid;
+
+	private List<ListItem>		authorizedCompanyList;
+
+	private List<ListItem>		notAuthorizedCompanyList;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setSourceItemList(List<ListItem> sourceItemList) {
-		this.sourceItemList = sourceItemList;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public List<ListItem> getTargetItemList() {
-		return targetItemList;
+	public String getSurname() {
+		return surname;
 	}
 
-	public void setTargetItemList(List<ListItem> targetItemList) {
-		this.targetItemList = targetItemList;
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getUserOid() {
+		return userOid;
+	}
+
+	public void setUserOid(String userOid) {
+		this.userOid = userOid;
+	}
+
+	public List<ListItem> getAuthorizedCompanyList() {
+		return authorizedCompanyList;
+	}
+
+	public void setAuthorizedCompanyList(List<ListItem> authorizedCompanyList) {
+		this.authorizedCompanyList = authorizedCompanyList;
+	}
+
+	public List<ListItem> getNotAuthorizedCompanyList() {
+		return notAuthorizedCompanyList;
+	}
+
+	public void setNotAuthorizedCompanyList(List<ListItem> notAuthorizedCompanyList) {
+		this.notAuthorizedCompanyList = notAuthorizedCompanyList;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((sourceItemList == null) ? 0 : sourceItemList.hashCode());
-		result = prime * result + ((targetItemList == null) ? 0 : targetItemList.hashCode());
-		result = prime * result + ((userTckn == null) ? 0 : userTckn.hashCode());
+		result = prime * result + ((authorizedCompanyList == null) ? 0 : authorizedCompanyList.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((notAuthorizedCompanyList == null) ? 0 : notAuthorizedCompanyList.hashCode());
+		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result + ((tckn == null) ? 0 : tckn.hashCode());
+		result = prime * result + ((userOid == null) ? 0 : userOid.hashCode());
 		return result;
 	}
 
@@ -49,35 +82,51 @@ public class UserCompanyAuthDTO extends BasicDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		UserCompanyAuthDTO other = (UserCompanyAuthDTO) obj;
-		if (sourceItemList == null) {
-			if (other.sourceItemList != null)
+		if (authorizedCompanyList == null) {
+			if (other.authorizedCompanyList != null)
 				return false;
-		} else if (!sourceItemList.equals(other.sourceItemList))
+		} else if (!authorizedCompanyList.equals(other.authorizedCompanyList))
 			return false;
-		if (targetItemList == null) {
-			if (other.targetItemList != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!targetItemList.equals(other.targetItemList))
+		} else if (!name.equals(other.name))
 			return false;
-		if (userTckn == null) {
-			if (other.userTckn != null)
+		if (notAuthorizedCompanyList == null) {
+			if (other.notAuthorizedCompanyList != null)
 				return false;
-		} else if (!userTckn.equals(other.userTckn))
+		} else if (!notAuthorizedCompanyList.equals(other.notAuthorizedCompanyList))
+			return false;
+		if (surname == null) {
+			if (other.surname != null)
+				return false;
+		} else if (!surname.equals(other.surname))
+			return false;
+		if (tckn == null) {
+			if (other.tckn != null)
+				return false;
+		} else if (!tckn.equals(other.tckn))
+			return false;
+		if (userOid == null) {
+			if (other.userOid != null)
+				return false;
+		} else if (!userOid.equals(other.userOid))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "UserCompanyAuthDTO [userId=" + userTckn + ", sourceItemList=" + sourceItemList + ", targetItemList=" + targetItemList + "]";
+		return "UserCompanyAuthDTO [tckn=" + tckn + ", name=" + name + ", surname=" + surname + ", userOid=" + userOid
+				+ ", authorizedCompanyList=" + authorizedCompanyList + ", notAuthorizedCompanyList=" + notAuthorizedCompanyList + "]";
 	}
 
-	public String getUserTckn() {
-		return userTckn;
+	public String getTckn() {
+		return tckn;
 	}
 
-	public void setUserTckn(String userId) {
-		this.userTckn = userId;
+	public void setTckn(String tckn) {
+		this.tckn = tckn;
 	}
 
 }

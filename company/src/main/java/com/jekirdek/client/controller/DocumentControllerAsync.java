@@ -25,4 +25,6 @@ public interface DocumentControllerAsync {
 
 	void saveDocumentType(DocumentTypeDTO dto, AsyncCallback<Void> callback);
 
+	void deleteDocumentTypeByOid(String objid, AsyncCallback<Void> callback);
+
 }
