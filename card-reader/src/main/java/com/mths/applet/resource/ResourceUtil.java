@@ -13,13 +13,13 @@ import tr.gov.tubitak.uekae.esya.api.common.ESYAException;
 import tr.gov.tubitak.uekae.esya.api.signature.config.ConfigurationException;
 
 public class ResourceUtil {
-	private static Logger logger = LoggerFactory.getLogger(ResourceUtil.class.getName());
+	private static Logger	logger				= LoggerFactory.getLogger(ResourceUtil.class.getName());
 
-	public static String licensePath = "/lisans/Full_lisans.xml";
-	public static String policyPath = "/conf/certval-policy.xml";
-	public static String log4jPath = "/conf/log4j.properties";
-	public static String smartCardConfig = "/conf/smartcard-config.xml";
-	public static String esyaSignatureConfig = "/conf/esya-signature-config.xml";
+	public static String	licensePath			= "/lisans/Full_lisans.xml";
+	public static String	policyPath			= "/config/certval-policy.xml";
+	public static String	log4jPath			= "/config/log4j.properties";
+	public static String	smartCardConfig		= "/config/smartcard-config.xml";
+	public static String	esyaSignatureConfig	= "/config/esya-signature-config.xml";
 
 	public static InputStream getFile(String aFileName) throws IOException {
 		logger.info("getting file name : " + aFileName);
