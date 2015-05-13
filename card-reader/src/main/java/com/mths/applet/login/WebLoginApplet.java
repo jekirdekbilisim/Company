@@ -24,13 +24,13 @@ import com.mths.applet.smartcard.SmartCardManager;
 
 public class WebLoginApplet extends JApplet {
 
-	private static final long serialVersionUID = -3693190670548303841L;
+	private static final long	serialVersionUID	= -3693190670548303841L;
 
-	private static Logger logger = LoggerFactory.getLogger(WebLoginApplet.class);
+	private static Logger		logger				= LoggerFactory.getLogger(WebLoginApplet.class);
 
-	private SmartCardManager scManager;
+	private SmartCardManager	scManager;
 
-	private String signableInput = "CompanyInfoDTO [companyDTO=CompanyDTO [objid=fc7ef5fd-af0e-11e4-8f93-5c514f0e0550, companyType=R, mersisNo=345678, tradeName=Garanti, alias=garan, committedCapital=10000, paidCapital=345678, companyCenter=Center, phoneNo=2345678, faxNo=0101, internetAddress=, contactAddress=], directorDtoList=[DirectorDTO [directorType=R, objid=undefined, mersisNo=undefined, tradeName=undefined, companyCenter=undefined, name=ilyas, surname=beşli, title=başkan, tempKeyForClientDelete=1423394280009]], inspectorDtoList=[InspectorDTO [objid=undefined, name=ilyas, surname=beşli, title=garanti, address=test, registeredBranch=beşiktaş, tempKeyForClientDelete=1423394292739]]]";
+	private String				signableInput		= "CompanyInfoDTO [companyDTO=CompanyDTO [objid=fc7ef5fd-af0e-11e4-8f93-5c514f0e0550, companyType=R, mersisNo=345678, tradeName=Garanti, alias=garan, committedCapital=10000, paidCapital=345678, companyCenter=Center, phoneNo=2345678, faxNo=0101, internetAddress=, contactAddress=], directorDtoList=[DirectorDTO [directorType=R, objid=undefined, mersisNo=undefined, tradeName=undefined, companyCenter=undefined, name=ilyas, surname=beşli, title=başkan, tempKeyForClientDelete=1423394280009]], inspectorDtoList=[InspectorDTO [objid=undefined, name=ilyas, surname=beşli, title=garanti, address=test, registeredBranch=beşiktaş, tempKeyForClientDelete=1423394292739]]]";
 
 	@Override
 	public void init() {
@@ -40,7 +40,7 @@ public class WebLoginApplet extends JApplet {
 		smartCardInit();
 
 		// only local test, comment when production
-		// localTest();
+		localTest();
 	}
 
 	private void configInit() {
@@ -137,12 +137,12 @@ public class WebLoginApplet extends JApplet {
 		return cardInfoArr;
 	}
 
-	// private void localTest() {
-	// loginSmartCard("19863532");
-	// selectedCertInfo();
-	// signDocument(signableInput);
-	// logoutSmartCard();
-	// }
+	private void localTest() {
+		loginSmartCard("19863532");
+		selectedCertInfo();
+		signDocument(signableInput);
+		logoutSmartCard();
+	}
 
 	public String logoutSmartCard() {
 		String logoutResult = ErrorCode.CODE_21;
