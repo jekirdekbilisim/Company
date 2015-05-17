@@ -29,20 +29,20 @@ import com.mths.applet.resource.ErrorCode;
 
 public class SmartCardManager {
 
-	private static Logger logger = LoggerFactory.getLogger(SmartCardManager.class);
+	private static Logger				logger			= LoggerFactory.getLogger(SmartCardManager.class);
 
-	private static Object lockObject = new Object();
-	private static SmartCardManager scManager;
-	private List<ECertificate> eCertList;
-	private Map<Integer, BaseSmartCard> smartCardsTerminalMap;
-	private Map<String, Integer> certsTerminalMap;
-	private ECertificate activeCertificate;
-	private BaseSmartCard activeSmartCard;
-	private BaseSigner baseSigner;
-	private SignatureFormat signatureFormat = SignatureFormat.CAdES;
+	private static Object				lockObject		= new Object();
+	private static SmartCardManager		scManager;
+	private List<ECertificate>			eCertList;
+	private Map<Integer, BaseSmartCard>	smartCardsTerminalMap;
+	private Map<String, Integer>		certsTerminalMap;
+	private ECertificate				activeCertificate;
+	private BaseSmartCard				activeSmartCard;
+	private BaseSigner					baseSigner;
+	private SignatureFormat				signatureFormat	= SignatureFormat.CAdES;
 
-	private int terminalIndex;
-	private String[] terminalArr;
+	private int							terminalIndex;
+	private String[]					terminalArr;
 
 	/**
 	 * Singleton is used for this class. If many card placed, it wants to user to select one of cards. If there is a influential change in
@@ -220,7 +220,7 @@ public class SmartCardManager {
 					Ops ops = new ContainerOps(docBytes, activeCertificate, baseSigner, signatureFormat);
 
 					signature64 = ops.sign();// Base64.encode(signature);
-					logger.info("Document is signed successfully, sign : " + signature64);
+					logger.info("Document sign : " + signature64);
 				}
 				catch (UnsupportedEncodingException | SmartCardException e) {
 					logger.error(e.getMessage(), e);

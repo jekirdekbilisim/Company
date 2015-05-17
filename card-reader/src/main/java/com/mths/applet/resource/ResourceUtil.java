@@ -16,7 +16,7 @@ public class ResourceUtil {
 	private static Logger	logger				= LoggerFactory.getLogger(ResourceUtil.class.getName());
 
 	public static String	licensePath			= "/lisans/Full_lisans.xml";
-	public static String	policyPath			= "/config/certval-policy.xml";
+	public static String	policyPath			= "./config/certval-policy.xml";
 	public static String	log4jPath			= "/config/log4j.properties";
 	public static String	smartCardConfig		= "/config/smartcard-config.xml";
 	public static String	esyaSignatureConfig	= "/config/esya-signature-config.xml";
